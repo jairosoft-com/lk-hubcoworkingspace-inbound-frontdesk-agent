@@ -8,6 +8,8 @@ from livekit.agents.llm import function_tool
 from livekit.agents.voice import Agent, AgentSession, RunContext
 from livekit.plugins import deepgram, openai, silero
 
+from utils import load_prompt
+
 logger = logging.getLogger("function-calling")
 logger.setLevel(logging.INFO)
 
@@ -17,10 +19,7 @@ load_dotenv()
 class FunctionAgent(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions="""
-                You are a helpful assistant communicating through voice. Don't use any unpronouncable characters.
-                Note: If asked to print to the console, use the `print_to_console` function.
-            """,
+            instructions=load_prompt("function_agent.txt"),
             stt=deepgram.STT(),
             llm=openai.LLM(model="gpt-4o"),
             tts=openai.TTS(),
