@@ -9,6 +9,7 @@ from livekit.agents.voice import Agent, AgentSession, RunContext
 from livekit.plugins import deepgram, openai, silero
 
 from utils import load_prompt
+from utils import load_markdown_prompt
 
 logger = logging.getLogger("function-calling")
 logger.setLevel(logging.INFO)
@@ -19,7 +20,7 @@ load_dotenv()
 class FunctionAgent(Agent):
     def __init__(self) -> None:
         super().__init__(
-            instructions=load_prompt("function_agent.txt"),
+            instructions=load_markdown_prompt("HubCoworkingHi-FrontDesk-Training-Guide.md"),
             stt=deepgram.STT(),
             llm=openai.LLM(model="gpt-4o"),
             tts=openai.TTS(),
