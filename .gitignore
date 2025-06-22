@@ -1,0 +1,83 @@
+# LiveKit AI Agent - Comprehensive .gitignore
+# Generated files, sensitive data, and environment-specific configurations
+
+# Operating System Files
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Python Project Files
+# Virtual environments
+/.venv
+/venv/
+/env/
+/*.env
+
+# Bytecode and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution and build artifacts
+/build/
+/dist/
+/*.egg-info/
+
+# Test and coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Notebook checkpoints
+.ipynb_checkpoints
+
+# IDE and Editor Files
+# VSCode
+.vscode/
+
+# JetBrains (PyCharm, etc.)
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Sensitive Files
+# Environment files
+.env
+
+# Cursor MCP configuration
+*mcp.json
+
+# Other credential files
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.json
+config.local.*
+
+# File Exceptions
+# Allow template files
+!*.example
+!*.template
+!*.sample
+
+# LiveKit and Protocol Buffers
+*_pb2.py
+*_pb2_grpc.py
+*.proto.bak
+proto_gen/
+
+# Audio/Video test files
+*.wav
+*.mp4
+*.webm
+test_media/
