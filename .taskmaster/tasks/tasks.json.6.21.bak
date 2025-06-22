@@ -1,0 +1,684 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Sync with Main Branch and Create Feature Branch",
+        "description": "Ensure local repository is up-to-date with main branch and create a new feature branch for gitignore implementation",
+        "details": "Execute the following Git commands:\n1. `git checkout main`\n2. `git pull origin main`\n3. `git checkout -b feature/add-gitignore`\nThis ensures we have the latest code from main and creates a clean feature branch for our work.",
+        "testStrategy": "Verify branch creation with `git branch` and confirm we're on the feature branch. Check that main is up-to-date with `git log --oneline -5`",
+        "priority": "high",
+        "dependencies": [],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Verify Current Git Repository Status",
+            "description": "Check the current state of the local repository to ensure it's clean and ready for branch operations",
+            "dependencies": [],
+            "details": "Run `git status` to check for uncommitted changes, untracked files, or any merge conflicts. If there are uncommitted changes, either commit them or stash them using `git stash`. Ensure the working directory is clean before proceeding with branch operations.",
+            "status": "completed",
+            "testStrategy": "Verify that `git status` shows 'working tree clean' or handle any pending changes appropriately"
+          },
+          {
+            "id": 2,
+            "title": "Switch to Main Branch",
+            "description": "Navigate to the main branch to ensure we're starting from the correct base branch",
+            "dependencies": [
+              1
+            ],
+            "details": "Execute `git checkout main` to switch to the main branch. If the command fails, check if the main branch exists locally or if it's named differently (e.g., 'master'). Handle any potential issues with switching branches.",
+            "status": "completed",
+            "testStrategy": "Confirm that `git branch --show-current` returns 'main' after the checkout operation"
+          },
+          {
+            "id": 3,
+            "title": "Fetch and Pull Latest Changes from Remote",
+            "description": "Update the local main branch with the latest changes from the remote repository",
+            "dependencies": [
+              2
+            ],
+            "details": "First run `git fetch origin` to retrieve the latest remote references, then execute `git pull origin main` to merge the latest changes into the local main branch. Handle any potential merge conflicts that may arise during the pull operation.",
+            "status": "completed",
+            "testStrategy": "Verify that the local main branch is up-to-date by checking that `git status` shows 'Your branch is up to date with origin/main'"
+          },
+          {
+            "id": 4,
+            "title": "Create New Feature Branch",
+            "description": "Create and switch to a new feature branch specifically for the gitignore implementation",
+            "dependencies": [
+              3
+            ],
+            "details": "Execute `git checkout -b feature/add-gitignore` to create a new branch named 'feature/add-gitignore' and immediately switch to it. This creates a clean working branch based on the updated main branch.",
+            "status": "completed",
+            "testStrategy": "Confirm that `git branch --show-current` returns 'feature/add-gitignore' and that the branch was created successfully"
+          },
+          {
+            "id": 5,
+            "title": "Verify Branch Setup and Remote Tracking",
+            "description": "Confirm the feature branch is properly set up and ready for development work",
+            "dependencies": [
+              4
+            ],
+            "details": "Run `git branch -v` to verify the new branch exists and shows the correct commit hash matching the main branch. Check the branch structure with `git log --oneline -5` to ensure the branch history is correct. Optionally set up remote tracking for the feature branch if needed for collaboration.",
+            "status": "completed",
+            "testStrategy": "Verify that the feature branch exists, is currently checked out, and has the same commit history as the main branch up to the point of creation"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Create Base .gitignore File Structure",
+        "description": "Create the .gitignore file in the project root with proper header comments and section organization",
+        "details": "Create `.gitignore` file in project root with organized sections:\n```\n# LiveKit AI Agent - Comprehensive .gitignore\n# Generated files, sensitive data, and environment-specific configurations\n\n# Operating System Files\n# Python Project Files\n# IDE and Editor Files\n# Sensitive Files\n# File Exceptions\n```\nUse clear section headers for maintainability.",
+        "testStrategy": "Verify file exists at project root with `ls -la .gitignore` and confirm proper structure with `cat .gitignore`",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create .gitignore file with header and basic structure",
+            "description": "Create the .gitignore file in the project root directory with the main header comment and basic section structure",
+            "dependencies": [],
+            "details": "Create a new .gitignore file in the project root with the header '# LiveKit AI Agent - Comprehensive .gitignore' and '# Generated files, sensitive data, and environment-specific configurations'. Add empty section headers for the five main categories: Operating System Files, Python Project Files, IDE and Editor Files, Sensitive Files, and File Exceptions.",
+            "status": "completed",
+            "testStrategy": "Verify file exists in project root and contains proper header structure"
+          },
+          {
+            "id": 2,
+            "title": "Add Operating System Files section",
+            "description": "Populate the Operating System Files section with common OS-generated files and directories",
+            "dependencies": [
+              1
+            ],
+            "details": "Under the '# Operating System Files' section, add patterns for common OS files like .DS_Store (macOS), Thumbs.db (Windows), desktop.ini, and temporary files. Include patterns for system directories and hidden files that should be ignored across different operating systems.",
+            "status": "completed",
+            "testStrategy": "Verify OS-specific files are properly ignored when present in project directory"
+          },
+          {
+            "id": 3,
+            "title": "Add Python Project Files section",
+            "description": "Populate the Python Project Files section with Python-specific ignore patterns",
+            "dependencies": [
+              2
+            ],
+            "details": "Under the '# Python Project Files' section, add patterns for Python bytecode (__pycache__/, *.pyc, *.pyo), virtual environments (venv/, env/, .venv/), distribution files (build/, dist/, *.egg-info/), and Python-specific temporary files. Include patterns for pytest cache and coverage reports.",
+            "status": "completed",
+            "testStrategy": "Create test Python files and verify they are properly ignored when matching patterns"
+          },
+          {
+            "id": 4,
+            "title": "Add IDE and Editor Files section",
+            "description": "Populate the IDE and Editor Files section with common development tool configurations",
+            "dependencies": [
+              3
+            ],
+            "details": "Under the '# IDE and Editor Files' section, add patterns for popular IDEs and editors like .vscode/, .idea/, *.swp, *.swo, .vim/, Sublime Text files, and other editor-specific configuration files and temporary files that shouldn't be committed to version control.",
+            "status": "completed",
+            "testStrategy": "Verify IDE-specific files are ignored when using different development environments"
+          },
+          {
+            "id": 5,
+            "title": "Add Sensitive Files and File Exceptions sections",
+            "description": "Complete the .gitignore by adding the Sensitive Files section and File Exceptions section with appropriate patterns",
+            "dependencies": [
+              4
+            ],
+            "details": "Under the '# Sensitive Files' section, add patterns for environment files (.env, .env.local), API keys, certificates, logs (*.log), and other sensitive data. Under the '# File Exceptions' section, add any necessary negation patterns (using !) to explicitly include files that might otherwise be ignored but should be tracked.",
+            "status": "completed",
+            "testStrategy": "Verify sensitive files are properly ignored and any exception patterns work correctly"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Add Operating System Exclusions",
+        "description": "Add patterns to ignore common operating system generated files for macOS and Windows",
+        "details": "Add the following patterns under 'Operating System Files' section:\n```\n# macOS\n.DS_Store\n.AppleDouble\n.LSOverride\n\n# Windows\nThumbs.db\nehthumbs.db\nDesktop.ini\n```\nThese patterns prevent OS-specific metadata files from being tracked.",
+        "testStrategy": "Create test files like `.DS_Store` and `Thumbs.db`, then verify `git status` doesn't show them as untracked files",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Locate and analyze existing .gitignore file structure",
+            "description": "Find the project's .gitignore file and examine its current structure to identify where the 'Operating System Files' section should be added or if it already exists",
+            "dependencies": [],
+            "details": "Check if .gitignore exists in the project root. If it exists, analyze the current sections and comments to understand the organization pattern. If it doesn't exist, prepare to create one. Look for any existing OS-related patterns that might conflict with the new additions.",
+            "status": "completed",
+            "testStrategy": "Verify .gitignore file exists and can be read. Check current content structure and identify insertion point."
+          },
+          {
+            "id": 2,
+            "title": "Create Operating System Files section header",
+            "description": "Add or locate the 'Operating System Files' section in the .gitignore file with appropriate formatting and comments",
+            "dependencies": [
+              1
+            ],
+            "details": "Add a clear section header '# Operating System Files' with proper spacing and formatting consistent with other sections in the file. If the section already exists, prepare to append to it. Ensure proper line breaks and visual separation from other sections.",
+            "status": "completed",
+            "testStrategy": "Verify the section header is properly formatted and positioned in the file structure."
+          },
+          {
+            "id": 3,
+            "title": "Add macOS-specific ignore patterns",
+            "description": "Insert the macOS operating system file patterns (.DS_Store, .AppleDouble, .LSOverride) under the Operating System Files section",
+            "dependencies": [
+              2
+            ],
+            "details": "Add the macOS subsection with comment '# macOS' followed by the three patterns: .DS_Store, .AppleDouble, and .LSOverride. Each pattern should be on its own line with consistent indentation. Ensure proper spacing between the comment and patterns.",
+            "status": "completed",
+            "testStrategy": "Verify all three macOS patterns are correctly added and formatted. Test that .DS_Store files would be ignored by git."
+          },
+          {
+            "id": 4,
+            "title": "Add Windows-specific ignore patterns",
+            "description": "Insert the Windows operating system file patterns (Thumbs.db, ehthumbs.db, Desktop.ini) under the Operating System Files section",
+            "dependencies": [
+              3
+            ],
+            "details": "Add the Windows subsection with comment '# Windows' followed by the three patterns: Thumbs.db, ehthumbs.db, and Desktop.ini. Each pattern should be on its own line with consistent formatting matching the macOS section. Add appropriate spacing between macOS and Windows sections.",
+            "status": "completed",
+            "testStrategy": "Verify all three Windows patterns are correctly added and formatted. Test that Thumbs.db files would be ignored by git."
+          },
+          {
+            "id": 5,
+            "title": "Validate and test the updated .gitignore file",
+            "description": "Verify the complete .gitignore file is properly formatted and test that the new patterns effectively ignore the specified OS files",
+            "dependencies": [
+              4
+            ],
+            "details": "Review the entire .gitignore file for syntax correctness, proper formatting, and logical organization. Test the ignore patterns by creating sample OS files (if safe to do so) or using git check-ignore command to verify the patterns work correctly. Ensure no existing functionality is broken.",
+            "status": "completed",
+            "testStrategy": "Use 'git check-ignore' command to test each new pattern. Verify file syntax is valid and git recognizes the ignore rules. Check that existing ignore patterns still work correctly."
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Add Python Project Exclusions",
+        "description": "Add comprehensive patterns to ignore Python-specific generated files and directories",
+        "details": "Add the following patterns under 'Python Project Files' section:\n```\n# Virtual environments\n/.venv\n/venv/\n/env/\n/*.env\n\n# Bytecode and compiled files\n__pycache__/\n*.py[cod]\n*$py.class\n\n# Distribution and build artifacts\n/build/\n/dist/\n/*.egg-info/\n\n# Test and coverage reports\n.pytest_cache/\n.coverage\nhtmlcov/\n.tox/\n\n# Notebook checkpoints\n.ipynb_checkpoints\n```",
+        "testStrategy": "Create a virtual environment with `python -m venv .venv`, run tests to generate cache files, then verify `git status` shows no Python artifacts",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Locate and analyze existing .gitignore structure",
+            "description": "Find the project's .gitignore file and identify the current structure, specifically looking for any existing Python-related sections or patterns that might conflict with the new additions",
+            "dependencies": [],
+            "details": "Search for .gitignore in the project root, parse its contents to understand current organization, and identify if there's already a 'Python Project Files' section or similar Python patterns that need to be updated rather than duplicated",
+            "status": "completed",
+            "testStrategy": "Verify .gitignore file exists and can be read, check for any existing Python patterns"
+          },
+          {
+            "id": 2,
+            "title": "Create Python Project Files section header",
+            "description": "Add or locate the 'Python Project Files' section in the .gitignore file with proper formatting and positioning",
+            "dependencies": [
+              1
+            ],
+            "details": "Insert a clearly marked section header '# Python Project Files' in the appropriate location within the .gitignore file, ensuring proper spacing and organization relative to other sections",
+            "status": "completed",
+            "testStrategy": "Confirm the section header is properly formatted and positioned in the file"
+          },
+          {
+            "id": 3,
+            "title": "Add virtual environment exclusion patterns",
+            "description": "Add patterns to ignore Python virtual environment directories and files",
+            "dependencies": [
+              2
+            ],
+            "details": "Insert the virtual environment patterns under the Python section: /.venv, /venv/, /env/, /*.env with appropriate comments explaining each pattern type",
+            "status": "completed",
+            "testStrategy": "Test that virtual environment directories are properly ignored by git status"
+          },
+          {
+            "id": 4,
+            "title": "Add bytecode and build artifact patterns",
+            "description": "Add patterns to ignore Python bytecode, compiled files, and distribution artifacts",
+            "dependencies": [
+              3
+            ],
+            "details": "Add patterns for bytecode (__pycache__/, *.py[cod], *$py.class) and build artifacts (/build/, /dist/, /*.egg-info/) with descriptive comments for each group",
+            "status": "completed",
+            "testStrategy": "Verify that Python bytecode files and build directories are excluded from git tracking"
+          },
+          {
+            "id": 5,
+            "title": "Add testing and development tool patterns",
+            "description": "Add patterns to ignore test coverage reports, cache files, and Jupyter notebook checkpoints",
+            "dependencies": [
+              4
+            ],
+            "details": "Insert patterns for testing tools (.pytest_cache/, .coverage, htmlcov/, .tox/) and development files (.ipynb_checkpoints) with appropriate grouping and comments",
+            "status": "completed",
+            "testStrategy": "Confirm that test coverage files and Jupyter checkpoints are properly ignored, validate complete .gitignore functionality"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Add IDE and Editor Exclusions",
+        "description": "Add patterns to ignore configuration files from popular IDEs and editors",
+        "details": "Add the following patterns under 'IDE and Editor Files' section:\n```\n# VSCode\n.vscode/\n\n# JetBrains (PyCharm, etc.)\n.idea/\n\n# Sublime Text\n*.sublime-project\n*.sublime-workspace\n```\nThese prevent IDE-specific configuration files from being committed.",
+        "testStrategy": "Create test directories `.vscode/` and `.idea/` with dummy files, verify they don't appear in `git status`",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Locate and Open .gitignore File",
+            "description": "Find the existing .gitignore file in the project root directory and open it for editing",
+            "dependencies": [],
+            "details": "Navigate to the project root directory and locate the .gitignore file. If the file doesn't exist, create a new one. Open the file in a text editor to prepare for modifications.",
+            "status": "completed",
+            "testStrategy": "Verify the .gitignore file exists and is accessible for editing"
+          },
+          {
+            "id": 2,
+            "title": "Identify IDE and Editor Files Section",
+            "description": "Locate or create the 'IDE and Editor Files' section within the .gitignore file",
+            "dependencies": [
+              1
+            ],
+            "details": "Search for an existing '# IDE and Editor Files' comment section in the .gitignore file. If it doesn't exist, determine the appropriate location to add this new section, typically after system files but before project-specific ignores.",
+            "status": "completed",
+            "testStrategy": "Confirm the section header is properly positioned and formatted"
+          },
+          {
+            "id": 3,
+            "title": "Add VSCode Exclusion Pattern",
+            "description": "Add the VSCode configuration directory pattern to ignore .vscode/ folders",
+            "dependencies": [
+              2
+            ],
+            "details": "Under the 'IDE and Editor Files' section, add a comment '# VSCode' followed by the pattern '.vscode/' on the next line. Ensure proper formatting and spacing consistent with the rest of the file.",
+            "status": "completed",
+            "testStrategy": "Verify the VSCode pattern is correctly formatted and positioned"
+          },
+          {
+            "id": 4,
+            "title": "Add JetBrains IDE Exclusion Pattern",
+            "description": "Add the JetBrains IDE configuration directory pattern to ignore .idea/ folders",
+            "dependencies": [
+              3
+            ],
+            "details": "Add a comment '# JetBrains (PyCharm, etc.)' followed by the pattern '.idea/' on the next line. Maintain consistent formatting and ensure it follows the VSCode section.",
+            "status": "completed",
+            "testStrategy": "Verify the JetBrains pattern is correctly formatted and positioned after VSCode"
+          },
+          {
+            "id": 5,
+            "title": "Add Sublime Text Exclusion Patterns",
+            "description": "Add Sublime Text project and workspace file patterns to ignore *.sublime-project and *.sublime-workspace files",
+            "dependencies": [
+              4
+            ],
+            "details": "Add a comment '# Sublime Text' followed by two patterns on separate lines: '*.sublime-project' and '*.sublime-workspace'. Save the file after adding all patterns and verify the complete section is properly formatted.",
+            "status": "completed",
+            "testStrategy": "Test the .gitignore patterns by creating sample IDE files and confirming they are ignored by git status"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Add Sensitive File Exclusions",
+        "description": "Add patterns to explicitly ignore files containing secrets, credentials, and local configurations",
+        "details": "Add the following patterns under 'Sensitive Files' section:\n```\n# Environment files\n.env\n\n# Cursor MCP configuration\n*mcp.json\n\n# Other credential files\n*.key\n*.pem\n*.p12\n*.pfx\nsecrets.json\nconfig.local.*\n```\nThis ensures sensitive data never gets committed accidentally.",
+        "testStrategy": "Create test files `.env`, `test.mcp.json`, and `secrets.json`, verify they don't appear in `git status`",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Locate and Open .gitignore File",
+            "description": "Find the project's .gitignore file in the root directory and open it for editing. If no .gitignore exists, create a new one.",
+            "dependencies": [],
+            "details": "Navigate to the project root directory and look for an existing .gitignore file. If found, open it in a text editor. If not found, create a new .gitignore file in the root directory. Ensure the file is properly formatted and readable.",
+            "status": "completed",
+            "testStrategy": "Verify the .gitignore file exists and can be opened/edited without errors"
+          },
+          {
+            "id": 2,
+            "title": "Add Sensitive Files Section Header",
+            "description": "Add a clear section header comment to organize the sensitive file exclusions in the .gitignore file.",
+            "dependencies": [
+              1
+            ],
+            "details": "Add a comment line '# Sensitive Files' to create a dedicated section for sensitive file patterns. Position this section appropriately within the existing .gitignore structure, typically after general ignore patterns but before project-specific ones.",
+            "status": "completed",
+            "testStrategy": "Confirm the section header is properly formatted as a comment and clearly visible"
+          },
+          {
+            "id": 3,
+            "title": "Add Environment File Exclusions",
+            "description": "Add patterns to exclude environment files that commonly contain sensitive configuration data.",
+            "dependencies": [
+              2
+            ],
+            "details": "Under the 'Sensitive Files' section, add the pattern '.env' with a comment '# Environment files' above it. This will exclude all .env files which typically contain API keys, database credentials, and other sensitive environment variables.",
+            "status": "completed",
+            "testStrategy": "Test that .env files are properly ignored by creating a test .env file and verifying git status doesn't show it as untracked"
+          },
+          {
+            "id": 4,
+            "title": "Add MCP Configuration Exclusions",
+            "description": "Add patterns to exclude Cursor MCP configuration files that may contain sensitive connection details.",
+            "dependencies": [
+              3
+            ],
+            "details": "Add the pattern '*mcp.json' with a comment '# Cursor MCP configuration' above it. This wildcard pattern will match any file ending with 'mcp.json', ensuring MCP configuration files with sensitive server details are excluded.",
+            "status": "completed",
+            "testStrategy": "Create a test file ending with 'mcp.json' and verify it's ignored by git status"
+          },
+          {
+            "id": 5,
+            "title": "Add Additional Credential File Exclusions",
+            "description": "Add comprehensive patterns for various types of credential and certificate files.",
+            "dependencies": [
+              4
+            ],
+            "details": "Add the following patterns with a comment '# Other credential files' above them: *.key, *.pem, *.p12, *.pfx, secrets.json, config.local.*. Each pattern should be on its own line. These cover private keys, certificates, local configuration overrides, and explicit secret files.",
+            "status": "completed",
+            "testStrategy": "Create test files matching each pattern (test.key, test.pem, secrets.json, config.local.json) and verify all are ignored by git status. Also test that the complete .gitignore file is valid and properly formatted."
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Add File Exceptions for Templates",
+        "description": "Add exception patterns to ensure template files ending in .example are not ignored",
+        "details": "Add the following patterns under 'File Exceptions' section:\n```\n# Allow template files\n!*.example\n!*.template\n!*.sample\n```\nThe `!` prefix creates exceptions to previous ignore rules, ensuring template files are tracked.",
+        "testStrategy": "Create `.env.example` file and verify it appears as untracked in `git status`, confirming the exception works",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Locate and analyze existing .gitignore file structure",
+            "description": "Find the project's .gitignore file and identify the current structure, particularly looking for any existing 'File Exceptions' section or similar exception patterns",
+            "dependencies": [],
+            "details": "Search for .gitignore in the project root directory. Read the file content and map out existing sections, comments, and ignore patterns. Document the current structure to understand where to place the new File Exceptions section.",
+            "status": "completed",
+            "testStrategy": "Verify .gitignore file exists and can be read. Document current sections and patterns for reference."
+          },
+          {
+            "id": 2,
+            "title": "Determine optimal placement for File Exceptions section",
+            "description": "Analyze the .gitignore structure to determine the best location for adding the new 'File Exceptions' section with template file exception patterns",
+            "dependencies": [
+              1
+            ],
+            "details": "Based on the file structure analysis, decide whether to add the File Exceptions section at the end of the file, after specific ignore patterns, or in a logical grouping. Consider .gitignore best practices where exceptions should come after the patterns they're meant to override.",
+            "status": "completed",
+            "testStrategy": "Review placement logic against .gitignore documentation and best practices."
+          },
+          {
+            "id": 3,
+            "title": "Create File Exceptions section with proper formatting",
+            "description": "Format the File Exceptions section with appropriate comments and the three exception patterns for template files",
+            "dependencies": [
+              2
+            ],
+            "details": "Create the exact text block to be inserted: a comment header '# File Exceptions' followed by a descriptive comment '# Allow template files', then the three exception patterns: '!*.example', '!*.template', and '!*.sample'. Ensure proper line spacing and formatting consistency with existing .gitignore style.",
+            "status": "completed",
+            "testStrategy": "Validate the formatting matches the specified requirements and follows .gitignore syntax rules."
+          },
+          {
+            "id": 4,
+            "title": "Insert File Exceptions section into .gitignore",
+            "description": "Add the formatted File Exceptions section to the .gitignore file at the determined optimal location",
+            "dependencies": [
+              3
+            ],
+            "details": "Open the .gitignore file for editing and insert the File Exceptions section at the location determined in subtask 2. Ensure proper line breaks and spacing around the new section. Save the file with the changes.",
+            "status": "completed",
+            "testStrategy": "Verify the file was modified correctly by reading it back and confirming the new section appears in the expected location with correct formatting."
+          },
+          {
+            "id": 5,
+            "title": "Validate exception patterns functionality",
+            "description": "Test that the added exception patterns work correctly by verifying that template files with .example, .template, and .sample extensions are no longer ignored by git",
+            "dependencies": [
+              4
+            ],
+            "details": "Create test files with the three extensions (.example, .template, .sample) and use 'git status' to verify they appear as untracked files rather than being ignored. Test with files that would normally be ignored to ensure the exceptions override previous ignore patterns correctly.",
+            "status": "completed",
+            "testStrategy": "Create sample template files and run 'git status' and 'git check-ignore' commands to confirm the exception patterns are working as expected."
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Add LiveKit and Protocol Buffer Exclusions",
+        "description": "Add patterns specific to LiveKit development and generated protobuf/gRPC files",
+        "details": "Add the following patterns for LiveKit-specific artifacts:\n```\n# LiveKit and Protocol Buffers\n*_pb2.py\n*_pb2_grpc.py\n*.proto.bak\nproto_gen/\n\n# Audio/Video test files\n*.wav\n*.mp4\n*.webm\ntest_media/\n```\nThese patterns handle generated protobuf files and test media that shouldn't be committed.",
+        "testStrategy": "Create test files like `test_pb2.py` and `sample.wav`, verify they're ignored by `git status`",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Add Protocol Buffer Generated File Exclusions",
+            "description": "Add gitignore patterns to exclude Python protobuf generated files that are automatically created during build processes",
+            "dependencies": [],
+            "details": "Add the following patterns to .gitignore: *_pb2.py, *_pb2_grpc.py, *.proto.bak. These patterns will exclude Python files generated from .proto definitions and backup proto files created during compilation.",
+            "status": "completed",
+            "testStrategy": "Create test protobuf files with these naming patterns and verify they are ignored by git status"
+          },
+          {
+            "id": 2,
+            "title": "Add Protocol Buffer Generation Directory Exclusion",
+            "description": "Add gitignore pattern to exclude the entire directory where generated protobuf files are stored",
+            "dependencies": [
+              1
+            ],
+            "details": "Add 'proto_gen/' pattern to .gitignore to exclude the entire directory containing generated protobuf artifacts. This ensures all generated files in this directory are ignored regardless of naming conventions.",
+            "status": "completed",
+            "testStrategy": "Create proto_gen/ directory with sample generated files and verify the entire directory is ignored"
+          },
+          {
+            "id": 3,
+            "title": "Add Audio File Format Exclusions",
+            "description": "Add gitignore patterns to exclude common audio file formats used in LiveKit testing and development",
+            "dependencies": [
+              2
+            ],
+            "details": "Add '*.wav' pattern to .gitignore to exclude WAV audio files. These are typically large binary files used for testing audio functionality and should not be committed to version control.",
+            "status": "completed",
+            "testStrategy": "Create sample .wav files and verify they are ignored by git status"
+          },
+          {
+            "id": 4,
+            "title": "Add Video File Format Exclusions",
+            "description": "Add gitignore patterns to exclude common video file formats used in LiveKit testing and development",
+            "dependencies": [
+              3
+            ],
+            "details": "Add '*.mp4' and '*.webm' patterns to .gitignore to exclude video files. These are large binary files commonly used for testing video streaming functionality and should not be stored in the repository.",
+            "status": "completed",
+            "testStrategy": "Create sample .mp4 and .webm files and verify they are ignored by git status"
+          },
+          {
+            "id": 5,
+            "title": "Add Test Media Directory Exclusion",
+            "description": "Add gitignore pattern to exclude the entire test media directory containing audio and video test files",
+            "dependencies": [
+              4
+            ],
+            "details": "Add 'test_media/' pattern to .gitignore to exclude the entire directory containing test media files. This provides comprehensive coverage for any media files stored in the designated test directory, regardless of format.",
+            "status": "completed",
+            "testStrategy": "Create test_media/ directory with various audio and video files, then verify the entire directory and its contents are ignored by git"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Validate .gitignore Functionality",
+        "description": "Perform comprehensive testing of all .gitignore patterns to ensure they work as expected",
+        "details": "Execute comprehensive validation:\n1. Create virtual environment: `python -m venv .venv`\n2. Create test sensitive files: `.env`, `test.mcp.json`\n3. Create template file: `.env.example`\n4. Run tests to generate cache: `python -m pytest` (if tests exist)\n5. Create OS files: `.DS_Store`, `Thumbs.db`\n6. Create IDE dirs: `.vscode/settings.json`, `.idea/workspace.xml`\n7. Verify `git status` shows only `.env.example` and the `.gitignore` itself",
+        "testStrategy": "Run `git status` and confirm only intended files appear. Use `git check-ignore -v <filename>` to test specific patterns work correctly",
+        "priority": "high",
+        "dependencies": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Set Up Test Environment and Virtual Environment",
+            "description": "Create a clean test environment by setting up a Python virtual environment and preparing the workspace for .gitignore validation",
+            "dependencies": [],
+            "details": "Execute `python -m venv .venv` to create virtual environment. Ensure the workspace is clean and ready for testing. Document the initial git status to establish baseline.",
+            "status": "completed",
+            "testStrategy": "Verify virtual environment is created successfully and .venv directory exists"
+          },
+          {
+            "id": 2,
+            "title": "Create Sensitive and Configuration Test Files",
+            "description": "Generate test files that should be ignored by .gitignore, including sensitive configuration files and template files",
+            "dependencies": [
+              1
+            ],
+            "details": "Create `.env` file with dummy sensitive data, create `test.mcp.json` with test configuration, and create `.env.example` as a template file that should be tracked",
+            "status": "completed",
+            "testStrategy": "Confirm all test files are created with appropriate content and file permissions"
+          },
+          {
+            "id": 3,
+            "title": "Generate Cache and Build Artifacts",
+            "description": "Execute tests and build processes to generate cache files, build artifacts, and other generated content that should be ignored",
+            "dependencies": [
+              2
+            ],
+            "details": "Run `python -m pytest` if tests exist to generate __pycache__ directories and .pytest_cache. Create any other build artifacts or cache files that the project might generate",
+            "status": "completed",
+            "testStrategy": "Verify cache directories and files are created, check for presence of __pycache__ and .pytest_cache"
+          },
+          {
+            "id": 4,
+            "title": "Create OS and IDE Specific Files",
+            "description": "Generate operating system and IDE specific files that should be ignored across different development environments",
+            "dependencies": [
+              3
+            ],
+            "details": "Create `.DS_Store` (macOS), `Thumbs.db` (Windows), `.vscode/settings.json` (VS Code), and `.idea/workspace.xml` (IntelliJ/PyCharm) with realistic content",
+            "status": "completed",
+            "testStrategy": "Confirm all OS and IDE files are created in correct directory structure"
+          },
+          {
+            "id": 5,
+            "title": "Validate Git Status and .gitignore Effectiveness",
+            "description": "Execute final validation by checking git status to ensure only intended files are tracked and all ignore patterns work correctly",
+            "dependencies": [
+              4
+            ],
+            "details": "Run `git status` and verify output shows only `.env.example` and `.gitignore` as untracked/modified files. All other created files should be ignored. Document any discrepancies and verify .gitignore patterns are working as expected",
+            "status": "completed",
+            "testStrategy": "Compare git status output against expected results, ensure no sensitive or generated files appear in git status"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Commit Changes and Create Pull Request",
+        "description": "Commit the .gitignore file to the feature branch and create a pull request for review",
+        "details": "Complete the Git workflow:\n1. `git add .gitignore`\n2. `git commit -m \"Add comprehensive .gitignore for LiveKit AI Agent project\"`\n3. `git push origin feature/add-gitignore`\n4. Create Pull Request from feature branch to main\n5. Assign PR to reviewer 'raseniero'\n6. Include PR description explaining the comprehensive coverage and validation performed",
+        "testStrategy": "Verify commit exists with `git log --oneline -1`, confirm branch is pushed with `git branch -r`, and validate PR is created with proper reviewer assignment",
+        "priority": "high",
+        "dependencies": [
+          9
+        ],
+        "status": "completed",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Stage .gitignore File for Commit",
+            "description": "Add the .gitignore file to the Git staging area to prepare it for commit",
+            "dependencies": [],
+            "details": "Execute `git add .gitignore` command to stage the file. Verify the file is properly staged by running `git status` to confirm it appears in the 'Changes to be committed' section.",
+            "status": "completed",
+            "testStrategy": "Run `git status` to verify .gitignore is staged and `git diff --cached .gitignore` to review staged changes"
+          },
+          {
+            "id": 2,
+            "title": "Commit .gitignore with Descriptive Message",
+            "description": "Create a commit with the staged .gitignore file using a clear, descriptive commit message",
+            "dependencies": [
+              1
+            ],
+            "details": "Execute `git commit -m \"Add comprehensive .gitignore for LiveKit AI Agent project\"` to create the commit. Ensure the commit message follows conventional commit standards and clearly describes the purpose.",
+            "status": "completed",
+            "testStrategy": "Run `git log --oneline -1` to verify the commit was created with the correct message"
+          },
+          {
+            "id": 3,
+            "title": "Push Feature Branch to Remote Repository",
+            "description": "Push the feature branch with the committed changes to the remote origin repository",
+            "dependencies": [
+              2
+            ],
+            "details": "Execute `git push origin feature/add-gitignore` to push the branch to remote. If this is the first push of the branch, Git will set up the upstream tracking automatically.",
+            "status": "completed",
+            "testStrategy": "Verify successful push by checking the command output for confirmation and optionally run `git branch -vv` to see tracking information"
+          },
+          {
+            "id": 4,
+            "title": "Create Pull Request from Feature Branch",
+            "description": "Create a new pull request from the feature/add-gitignore branch to the main branch",
+            "dependencies": [
+              3
+            ],
+            "details": "Navigate to the repository on GitHub/GitLab and create a new pull request. Set source branch as 'feature/add-gitignore' and target branch as 'main'. Ensure the PR title is clear and descriptive.",
+            "status": "completed",
+            "testStrategy": "Verify PR is created successfully and appears in the repository's pull request list with correct branch references"
+          },
+          {
+            "id": 5,
+            "title": "Configure Pull Request Details and Assignment",
+            "description": "Add comprehensive PR description and assign the pull request to reviewer 'raseniero'",
+            "dependencies": [
+              4
+            ],
+            "details": "Add a detailed PR description explaining the comprehensive .gitignore coverage, validation performed, and rationale for included patterns. Assign 'raseniero' as the reviewer and add appropriate labels if available (e.g., 'enhancement', 'configuration').",
+            "status": "completed",
+            "testStrategy": "Verify PR description is complete, reviewer is assigned, and all metadata is correctly set by reviewing the PR page"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-21T02:11:21.735Z",
+      "updated": "2025-06-21T02:35:39.359569Z",
+      "description": "Tasks for master context - All tasks completed successfully"
+    }
+  }
+}
