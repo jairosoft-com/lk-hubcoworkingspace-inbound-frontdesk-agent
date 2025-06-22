@@ -8,6 +8,7 @@ from livekit.agents.llm import function_tool
 from livekit.agents.voice import Agent, AgentSession, RunContext
 from livekit.plugins import deepgram, openai, silero
 
+from utils import load_prompt
 from utils import load_markdown_prompt
 
 logger = logging.getLogger("function-calling")
