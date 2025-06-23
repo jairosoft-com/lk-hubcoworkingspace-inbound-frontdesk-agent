@@ -1,5 +1,15 @@
 version: '3'
 
+vars:
+  # Default image name and tag
+  IMAGE_NAME: "lk-hubcoworkinghi-inbound-frontdesk-agent"
+  IMAGE_TAG: "latest"
+
+  # Python environment settings
+  VENV_DIR: ".venv"
+  PYTHON: "python3"
+  PIP: "pip3"
+
 tasks:
   default:
     desc: List all available tasks
@@ -33,3 +43,29 @@ tasks:
     cmds:
       - .venv/bin/python agent.py download-files
     desc: Download required ML models
+
+  # Docker tasks
+  docker-build:
+    cmds:
+      - docker build -t "{{.IMAGE_NAME}}:{{.IMAGE_TAG}}" .
+    desc: Build the Docker image
+
+  docker-push:
+    cmds:
+      - docker push "{{.IMAGE_NAME}}:{{.IMAGE_TAG}}"
+    desc: Push the Docker image to the registry
+
+  docker-run-with-env:
+    cmds:
+      - docker run --rm -it --env-file .env.local "{{.IMAGE_NAME}}:{{.IMAGE_TAG}}"
+    desc: Run the Docker container with environment variables from .env.local
+
+  docker-clean:
+    cmds:
+      - docker rmi "{{.IMAGE_NAME}}:{{.IMAGE_TAG}}" 2>/dev/null || true
+    desc: Remove the Docker image
+
+  docker-list-images:
+    cmds:
+      - docker images "{{.IMAGE_NAME}}"
+    desc: List all Docker images for this project

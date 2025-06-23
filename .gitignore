@@ -52,6 +52,7 @@ htmlcov/
 # Sensitive Files
 # Environment files
 .env
+.env.local
 
 # Cursor MCP configuration
 *mcp.json

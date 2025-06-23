@@ -1,0 +1,63 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+
+# Distribution / packaging
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Environment files
+.env
+.env.*
+
+# Logs & temp files
+*.log
+*.gz
+*.tgz
+.tmp
+.cache
+
+# Docker artifacts
+Dockerfile*
+.dockerignore
+
+# Git
+.git/
+.gitignore
+
+# macOS system files
+.DS_Store
+
+# Jupyter Notebook checkpoints
+*.ipynb
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+*.ipynb_checkpoints/*
+*.ipynb_checkpoints/*/*
+*.ipynb_checkpoints/*/*/*
+
+# VSCode settings
+.vscode/
+
+# Test, coverage, and cache
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+.pyre/
+.pytype/ 
+
+# Other files to explicitly ignore
+README.md
