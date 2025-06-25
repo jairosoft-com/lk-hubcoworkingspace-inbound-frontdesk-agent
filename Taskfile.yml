@@ -2,8 +2,10 @@ version: '3'
 
 vars:
   # Default image name and tag
-  IMAGE_NAME: "lk-hubcoworkinghi-inbound-frontdesk-agent"
+  ACR_REGISTRY: "jairo"
+  IMAGE_NAME: "lk-hubcoworkhi-frontdesk-agent"
   IMAGE_TAG: "latest"
+  AZ_SUBSCRIPTION_ID: "553b3c7a-c3b2-40de-8037-ffe396f30141"
 
   # Python environment settings
   VENV_DIR: ".venv"
@@ -17,6 +19,7 @@ tasks:
       - task --list-all
     silent: false
 
+  # Python Virtual Environment tasks
   venv-setup:
     desc: Set up Python virtual environment and install dependencies
     cmds:
@@ -33,6 +36,7 @@ tasks:
       - echo "Virtual environment removed"
     silent: false
 
+  # Agent tasks
   agent-run:
     desc: Run the context variable agent
     cmds:
@@ -47,12 +51,12 @@ tasks:
   # Docker tasks
   docker-build:
     cmds:
-      - docker build -t "{{.IMAGE_NAME}}:{{.IMAGE_TAG}}" .
+      - docker build  --platform linux/amd64 -t "{{.ACR_REGISTRY}}.azurecr.io/{{.IMAGE_NAME}}:{{.IMAGE_TAG}}" .
     desc: Build the Docker image
 
   docker-push:
     cmds:
-      - docker push "{{.IMAGE_NAME}}:{{.IMAGE_TAG}}"
+      - docker push "{{.ACR_REGISTRY}}.azurecr.io/{{.IMAGE_NAME}}:{{.IMAGE_TAG}}"
     desc: Push the Docker image to the registry
 
   docker-run-with-env:
@@ -69,3 +73,28 @@ tasks:
     cmds:
       - docker images "{{.IMAGE_NAME}}"
     desc: List all Docker images for this project
+
+  # Azure tasks
+  az-login:
+    desc: Log in to Azure CLI
+    cmds:
+      - az login
+    silent: false
+
+  acr-login:
+    desc: Log in to Azure Container Registry
+    cmds:
+      - az acr login --name "{{.ACR_REGISTRY}}"
+    silent: false
+
+  az-list-subscriptions:
+    desc: List Azure subscriptions in table format
+    cmds:
+      - az account list --output table
+    silent: false
+
+  az-set-subscription:
+    desc: Set the active Azure subscription
+    cmds:
+      - az account set --subscription "{{.AZ_SUBSCRIPTION_ID}}"
+    silent: false
