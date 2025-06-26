@@ -24,11 +24,16 @@ class FunctionAgent(Agent):
             prompt_content = load_prompt("hub_front_desk_prompt.md")
             logger.info("Successfully loaded hub_front_desk_prompt.md")
         except FileNotFoundError:
-            logger.warning("hub_front_desk_prompt.md not found, falling back to default prompt")
-            prompt_content = load_prompt("function_agent.txt")
-        except Exception as e:
-            logger.error(f"Error loading prompt: {e}")
-            prompt_content = "You are a helpful assistant communicating through voice."
+            logger.warning("hub_front_desk_prompt.md not found, attempting to load default prompt")
+            try:
+                prompt_content = load_prompt("function_agent.txt")
+                logger.info("Successfully loaded function_agent.txt")
+            except FileNotFoundError:
+                logger.critical("Both hub_front_desk_prompt.md and function_agent.txt are unavailable")
+                raise RuntimeError("Critical error: No prompt files could be loaded.")
+            except Exception as e:
+                logger.critical(f"Error loading default prompt: {e}")
+                raise RuntimeError("Critical error: Failed to load default prompt due to an unexpected error.")
         
         # Get TTS configuration from environment variables
         tts_speed = float(os.getenv("TTS_SPEED", "1.05"))  # Default to 5% faster for natural rhythm
