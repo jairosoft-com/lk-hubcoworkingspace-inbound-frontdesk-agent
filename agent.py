@@ -2,6 +2,7 @@
 ## To test the function, you can ask the agent to print to the console!
 
 import logging
+import os
 from dotenv import load_dotenv
 from livekit.agents import JobContext, WorkerOptions, cli
 from livekit.agents.llm import function_tool
@@ -9,7 +10,6 @@ from livekit.agents.voice import Agent, AgentSession, RunContext
 from livekit.plugins import deepgram, openai, silero
 
 from utils import load_prompt
-from utils import load_markdown_prompt
 
 logger = logging.getLogger("function-calling")
 logger.setLevel(logging.INFO)
@@ -19,16 +19,37 @@ load_dotenv()
 
 class FunctionAgent(Agent):
     def __init__(self) -> None:
+        # Load the new Hub Front Desk prompt
+        try:
+            prompt_content = load_prompt("hub_front_desk_prompt.md")
+            logger.info("Successfully loaded hub_front_desk_prompt.md")
+        except FileNotFoundError:
+            logger.warning("hub_front_desk_prompt.md not found, attempting to load default prompt")
+            try:
+                prompt_content = load_prompt("function_agent.txt")
+                logger.info("Successfully loaded function_agent.txt")
+            except FileNotFoundError:
+                logger.critical("Both hub_front_desk_prompt.md and function_agent.txt are unavailable")
+                raise RuntimeError("Critical error: No prompt files could be loaded.")
+            except Exception as e:
+                logger.critical(f"Error loading default prompt: {e}")
+                raise RuntimeError("Critical error: Failed to load default prompt due to an unexpected error.")
+        
+        # Get TTS configuration from environment variables
+        tts_speed = float(os.getenv("TTS_SPEED", "1.05"))  # Default to 5% faster for natural rhythm
+        tts_voice = os.getenv("TTS_VOICE", "nova")  # Default to nova voice (friendly, warm)
+        logger.info(f"TTS configuration - Speed: {tts_speed}, Voice: {tts_voice}")
+        
         super().__init__(
-            instructions=load_markdown_prompt("HubCoworkingHi-FrontDesk-Training-Guide.md"),
+            instructions=prompt_content,
             stt=deepgram.STT(),
             llm=openai.LLM(model="gpt-4o"),
-            tts=openai.TTS(),
+            tts=openai.TTS(speed=tts_speed, voice=tts_voice),
             vad=silero.VAD.load(),
         )
 
     @function_tool
-    async def print_to_console(self, context: RunContext):
+    async def print_to_console(self, _context: RunContext):
         print("Console Print Success!")
         return None, "I've printed to the console."
 

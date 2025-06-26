@@ -3,682 +3,136 @@
     "tasks": [
       {
         "id": 1,
-        "title": "Create Feature Branch",
-        "description": "Create a new feature branch from main branch for implementing the prompt externalization",
-        "details": "Create a new Git branch named 'feature/extract-prompt' from the main branch. This follows the development workflow specified in the PRD.\n\nImplementation:\n```bash\ngit checkout main\ngit pull origin main\ngit checkout -b feature/extract-prompt\n```",
-        "testStrategy": "Verify the branch is created and checked out using 'git branch' and 'git status' commands",
+        "title": "Create Feature Branch for Agent Enhancement",
+        "description": "Create a new feature branch from main following the branching strategy defined in branching-merging-strategy.mdc",
+        "details": "Create a new Git branch named 'feature/improve-agent-prompt' from the main branch. This branch will contain all changes related to the AI agent enhancement. Use git checkout -b feature/improve-agent-prompt to create and switch to the new branch.",
+        "testStrategy": "Verify branch creation with git branch command and confirm current branch is feature/improve-agent-prompt",
         "priority": "high",
         "dependencies": [],
         "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Verify Main Branch Status and Sync",
-            "description": "Ensure the main branch is up-to-date and clean before creating the feature branch",
-            "dependencies": [],
-            "details": "Check current git status, switch to main branch, and pull latest changes from remote. Verify there are no uncommitted changes that could interfere with branch creation.",
-            "status": "done",
-            "testStrategy": "Verify git status shows clean working directory and main branch is current with origin/main"
-          },
-          {
-            "id": 2,
-            "title": "Create Feature Branch Locally",
-            "description": "Create the new feature branch 'feature/extract-prompt' from the current main branch",
-            "dependencies": [
-              1
-            ],
-            "details": "Execute 'git checkout -b feature/extract-prompt' to create and switch to the new branch. This creates a local branch based on the current main branch state.",
-            "status": "done",
-            "testStrategy": "Confirm current branch is 'feature/extract-prompt' using 'git branch' command"
-          },
-          {
-            "id": 3,
-            "title": "Verify Branch Creation and Positioning",
-            "description": "Confirm the feature branch was created correctly and is positioned at the right commit",
-            "dependencies": [
-              2
-            ],
-            "details": "Check that the new branch exists, is currently checked out, and points to the same commit as main. Verify branch naming follows the specified convention.",
-            "status": "done",
-            "testStrategy": "Use 'git log --oneline -1' to confirm branch is at expected commit and 'git branch -v' to verify branch details"
-          },
-          {
-            "id": 4,
-            "title": "Set Up Remote Tracking",
-            "description": "Configure the feature branch to track a remote branch for future push/pull operations",
-            "dependencies": [
-              3
-            ],
-            "details": "Push the new branch to origin and set up tracking with 'git push -u origin feature/extract-prompt'. This establishes the remote relationship for the feature branch.",
-            "status": "done",
-            "testStrategy": "Verify remote tracking is set up correctly using 'git branch -vv' to show tracking information"
-          },
-          {
-            "id": 5,
-            "title": "Document Branch Creation and Validate Workflow",
-            "description": "Document the branch creation in development logs and validate the branch follows project workflow standards",
-            "dependencies": [
-              4
-            ],
-            "details": "Record branch creation details, verify branch naming convention matches PRD requirements, and confirm the development workflow is properly established for the prompt externalization feature.",
-            "status": "done",
-            "testStrategy": "Check that branch appears in remote repository and follows established naming conventions and workflow patterns"
-          }
-        ]
+        "subtasks": []
       },
       {
         "id": 2,
-        "title": "Create Prompts Directory Structure",
-        "description": "Create the prompts directory in the project root to house external prompt files",
-        "details": "Create a new directory named 'prompts' in the root of the project. This directory will contain all external prompt files.\n\nImplementation:\n```python\nimport os\n\n# Create prompts directory\nos.makedirs('prompts', exist_ok=True)\n```\n\nOr using command line:\n```bash\nmkdir prompts\n```",
-        "testStrategy": "Verify the 'prompts' directory exists in the project root using file system checks",
+        "title": "Analyze Training Manual Content",
+        "description": "Review and analyze the existing HubCoworkingHi-FrontDesk-Training-Guide.md to understand the knowledge base and operational procedures",
+        "details": "Thoroughly read through prompts/HubCoworkingHi-FrontDesk-Training-Guide.md to understand: 1) Hub Coworking Hawaii's services and procedures, 2) Common customer questions and appropriate responses, 3) Operational details like staffed hours, locations, and policies, 4) Company culture and communication style. Document key information that needs to be distilled into the AI prompt.",
+        "testStrategy": "Create a summary document of key points extracted from the training manual to validate comprehensive understanding",
         "priority": "high",
         "dependencies": [
           1
         ],
         "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Validate Project Root Directory",
-            "description": "Verify that we are in the correct project root directory and check for existing directory structure to ensure proper placement of the prompts directory",
-            "dependencies": [],
-            "details": "Check current working directory, verify project markers (like package.json, requirements.txt, or .git), and ensure we have write permissions to create directories",
-            "status": "done",
-            "testStrategy": "Verify current directory contains expected project files and test write permissions"
-          },
-          {
-            "id": 2,
-            "title": "Create Base Prompts Directory",
-            "description": "Create the main 'prompts' directory in the project root using Python's os.makedirs() with exist_ok=True to handle cases where directory already exists",
-            "dependencies": [
-              1
-            ],
-            "details": "Use os.makedirs('prompts', exist_ok=True) to create the directory safely without errors if it already exists",
-            "status": "done",
-            "testStrategy": "Verify directory exists after creation and check that it's writable"
-          },
-          {
-            "id": 3,
-            "title": "Create Subdirectory Structure",
-            "description": "Create organized subdirectories within the prompts folder to categorize different types of prompt files (e.g., system, user, templates)",
-            "dependencies": [
-              2
-            ],
-            "details": "Create subdirectories like 'system', 'user', 'templates', and 'examples' within the prompts directory to maintain organization",
-            "status": "done",
-            "testStrategy": "Verify all subdirectories are created and accessible"
-          },
-          {
-            "id": 4,
-            "title": "Add Directory Documentation",
-            "description": "Create a README.md file in the prompts directory explaining the purpose and structure of the directory for future developers",
-            "dependencies": [
-              3
-            ],
-            "details": "Write a README.md file documenting the directory structure, naming conventions, and usage guidelines for prompt files",
-            "status": "done",
-            "testStrategy": "Verify README.md file is created and contains proper documentation"
-          },
-          {
-            "id": 5,
-            "title": "Verify Directory Structure and Permissions",
-            "description": "Perform final validation of the complete prompts directory structure, check permissions, and ensure the setup is ready for prompt file storage",
-            "dependencies": [
-              4
-            ],
-            "details": "Run comprehensive checks to verify directory tree structure, file permissions, and create a simple test file to ensure everything works correctly",
-            "status": "done",
-            "testStrategy": "Create and delete a test file in each subdirectory to verify write permissions and directory accessibility"
-          }
-        ]
+        "subtasks": []
       },
       {
         "id": 3,
-        "title": "Extract Instructions from agent.py",
-        "description": "Identify and extract the hardcoded instructions string from the FunctionAgent class in agent.py",
-        "details": "Locate the multi-line string currently assigned to the 'instructions' parameter in the FunctionAgent class within agent.py. Copy this content to prepare for moving it to an external file.\n\nSteps:\n1. Open agent.py\n2. Find the FunctionAgent class\n3. Locate the instructions parameter assignment\n4. Copy the entire multi-line string content\n5. Document the exact location for replacement in next task",
-        "testStrategy": "Verify the instructions content is identified and copied correctly by comparing original and extracted content",
+        "title": "Create Hub Front Desk Prompt File",
+        "description": "Create the new hub_front_desk_prompt.md file in the prompts/ directory with the basic structure",
+        "details": "Create a new Markdown file at prompts/hub_front_desk_prompt.md with the following structure: 1) Header section defining the agent's role as Front Desk Host, 2) Persona definition section, 3) Knowledge base section derived from training manual, 4) Response guidelines section, 5) Local Hawaiian language integration instructions. Ensure the file follows proper Markdown formatting.",
+        "testStrategy": "Verify file creation and basic structure by checking file exists at correct path and contains all required sections",
         "priority": "high",
         "dependencies": [
           2
         ],
         "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Locate and open agent.py file",
-            "description": "Find and open the agent.py file in the project directory to begin the instruction extraction process",
-            "dependencies": [],
-            "details": "Navigate to the project root directory and locate the agent.py file. Open it in a text editor or IDE to examine its contents. Verify that the file exists and is accessible for reading.",
-            "status": "done",
-            "testStrategy": "Confirm the file opens successfully and contains Python code with class definitions"
-          },
-          {
-            "id": 2,
-            "title": "Identify the FunctionAgent class definition",
-            "description": "Locate the FunctionAgent class within the agent.py file and understand its structure",
-            "dependencies": [
-              1
-            ],
-            "details": "Search through the agent.py file to find the class definition for FunctionAgent. Note the line number where the class begins and examine its constructor (__init__ method) and other methods to understand the class structure.",
-            "status": "done",
-            "testStrategy": "Verify that the FunctionAgent class is found and contains the expected methods and attributes"
-          },
-          {
-            "id": 3,
-            "title": "Find the instructions parameter assignment",
-            "description": "Locate the specific line or section where the instructions parameter is assigned within the FunctionAgent class",
-            "dependencies": [
-              2
-            ],
-            "details": "Within the FunctionAgent class, search for the 'instructions' parameter assignment. This could be in the constructor, as a class attribute, or in a method. Note the exact line number and context where this assignment occurs.",
-            "status": "done",
-            "testStrategy": "Confirm that the instructions parameter is found and contains a multi-line string value"
-          },
-          {
-            "id": 4,
-            "title": "Extract and copy the multi-line instructions string",
-            "description": "Copy the complete multi-line string content assigned to the instructions parameter",
-            "dependencies": [
-              3
-            ],
-            "details": "Carefully select and copy the entire multi-line string value assigned to the instructions parameter. Ensure that all formatting, indentation, and special characters are preserved. The string may span multiple lines and could use triple quotes or other string formatting.",
-            "status": "done",
-            "testStrategy": "Verify that the copied content is complete and maintains proper formatting when pasted elsewhere"
-          },
-          {
-            "id": 5,
-            "title": "Document the extraction location and prepare replacement reference",
-            "description": "Record the exact location details of the extracted instructions for future replacement with external file reference",
-            "dependencies": [
-              4
-            ],
-            "details": "Document the file path (agent.py), class name (FunctionAgent), exact line numbers where the instructions string begins and ends, and the variable/parameter name. Create a clear reference that will be used in the next task to replace this hardcoded string with a file reference.",
-            "status": "done",
-            "testStrategy": "Ensure documentation includes all necessary details for accurate replacement: file path, class name, line numbers, and variable context"
-          }
-        ]
+        "subtasks": []
       },
       {
         "id": 4,
-        "title": "Create function_agent.txt Prompt File",
-        "description": "Create the function_agent.txt file in the prompts directory and move the extracted instructions content",
-        "details": "Create a new file named 'function_agent.txt' inside the prompts directory and paste the instructions content extracted from agent.py.\n\nImplementation:\n```python\n# Write the extracted instructions to the file\nwith open('prompts/function_agent.txt', 'w', encoding='utf-8') as f:\n    f.write(extracted_instructions_content)\n```\n\nEnsure the file contains the exact same content as the original hardcoded string, preserving formatting and line breaks.",
-        "testStrategy": "Verify the file is created with correct content by reading it back and comparing with the original instructions string",
+        "title": "Define Agent Persona and Communication Style",
+        "description": "Develop the detailed persona instructions for the AI agent to be conversational, friendly, professional, casual, and localized with Hawaiian elements",
+        "details": "Write comprehensive persona instructions in hub_front_desk_prompt.md that define: 1) Conversational & Friendly tone - engaging and approachable language, 2) Professional demeanor - accurate and reliable responses, 3) Casual communication style - relaxed and natural tone, 4) Hawaiian localization - incorporate 'aloha', 'mahalo', and other appropriate local phrases, 5) Specific examples of how to greet users and respond in character. Include guidelines for when and how to use Hawaiian phrases appropriately.",
+        "testStrategy": "Review persona section for completeness and ensure all four required characteristics (conversational, professional, casual, localized) are clearly defined with examples",
         "priority": "high",
         "dependencies": [
           3
         ],
         "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Verify prompts directory exists",
-            "description": "Check if the prompts directory exists in the project root, and create it if it doesn't exist",
-            "dependencies": [],
-            "details": "Use os.path.exists() to check for the prompts directory. If it doesn't exist, use os.makedirs() to create it. This ensures the target directory is available before attempting to write the file.",
-            "status": "done",
-            "testStrategy": "Verify directory creation by checking os.path.isdir('prompts') returns True"
-          },
-          {
-            "id": 2,
-            "title": "Extract instructions content from agent.py",
-            "description": "Locate and extract the hardcoded instructions string from the agent.py file that needs to be moved to the new prompt file",
-            "dependencies": [
-              1
-            ],
-            "details": "Open agent.py and identify the instructions string variable. Extract the complete content including all formatting, line breaks, and special characters. Store this content in a variable for writing to the new file.",
-            "status": "done",
-            "testStrategy": "Verify extracted content matches the original by comparing string length and key phrases"
-          },
-          {
-            "id": 3,
-            "title": "Create function_agent.txt file",
-            "description": "Create the new function_agent.txt file in the prompts directory with proper file handling",
-            "dependencies": [
-              1,
-              2
-            ],
-            "details": "Use open() with 'w' mode and utf-8 encoding to create the file at 'prompts/function_agent.txt'. Ensure proper file handling with context manager (with statement) for automatic file closure.",
-            "status": "done",
-            "testStrategy": "Verify file creation by checking os.path.exists('prompts/function_agent.txt')"
-          },
-          {
-            "id": 4,
-            "title": "Write extracted content to file",
-            "description": "Write the extracted instructions content to the function_agent.txt file, preserving all formatting and line breaks",
-            "dependencies": [
-              2,
-              3
-            ],
-            "details": "Use the file handle from the previous step to write the extracted content using f.write(). Ensure the content is written exactly as extracted, maintaining all whitespace, line breaks, and special characters.",
-            "status": "done",
-            "testStrategy": "Read back the file content and compare with original extracted content to ensure perfect match"
-          },
-          {
-            "id": 5,
-            "title": "Validate file content and formatting",
-            "description": "Verify that the created file contains the correct content with proper formatting and encoding",
-            "dependencies": [
-              4
-            ],
-            "details": "Read the created file back and compare it with the original extracted content. Check for proper UTF-8 encoding, correct line endings, and that no content was truncated or modified during the write process.",
-            "status": "done",
-            "testStrategy": "Perform byte-by-byte comparison between original content and file content, and verify file size matches expected content length"
-          }
-        ]
+        "subtasks": []
       },
       {
         "id": 5,
-        "title": "Create utils.py File",
-        "description": "Create a new utils.py file in the project root to house utility functions",
-        "details": "Create a new Python file named 'utils.py' in the root of the project. This file will contain utility functions for the project.\n\nImplementation:\n```python\n# Create empty utils.py file\nwith open('utils.py', 'w', encoding='utf-8') as f:\n    f.write('# Utility functions for the project\\n')\n```",
-        "testStrategy": "Verify utils.py file is created in the project root and can be imported as a Python module",
+        "title": "Extract and Structure Knowledge Base from Training Manual",
+        "description": "Distill the training manual content into actionable instructions and knowledge that the AI can use to respond to queries",
+        "details": "Transform the training manual content into structured knowledge sections in hub_front_desk_prompt.md: 1) Services offered (Virtual Office, meeting rooms, etc.), 2) Location details and staffed hours, 3) Policies and procedures, 4) Common FAQ responses, 5) Pricing information if available, 6) Contact information and escalation procedures. Format as clear, actionable instructions the AI can follow when responding to specific types of queries.",
+        "testStrategy": "Cross-reference extracted knowledge with original training manual to ensure no critical information is lost and all major topics are covered",
         "priority": "medium",
         "dependencies": [
-          2
-        ],
-        "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Create utils.py file structure",
-            "description": "Create the basic utils.py file in the project root with proper file header and initial structure",
-            "dependencies": [],
-            "details": "Create a new Python file named 'utils.py' in the root directory. Add a descriptive header comment, proper encoding declaration, and basic file structure with docstring explaining the file's purpose.",
-            "status": "done",
-            "testStrategy": "Verify file exists in correct location and contains proper header structure"
-          },
-          {
-            "id": 2,
-            "title": "Add common string utility functions",
-            "description": "Implement basic string manipulation utility functions that are commonly needed across projects",
-            "dependencies": [
-              1
-            ],
-            "details": "Add functions for string validation, formatting, and manipulation such as: sanitize_string(), format_name(), validate_email(), strip_whitespace(), etc. Include proper docstrings and type hints.",
-            "status": "done",
-            "testStrategy": "Create unit tests for each string utility function with various input scenarios"
-          },
-          {
-            "id": 3,
-            "title": "Add file and path utility functions",
-            "description": "Implement utility functions for file operations and path handling",
-            "dependencies": [
-              1
-            ],
-            "details": "Add functions for file operations like: ensure_directory_exists(), get_file_extension(), safe_filename(), read_json_file(), write_json_file(). Use pathlib for modern path handling and include error handling.",
-            "status": "done",
-            "testStrategy": "Test file operations with temporary directories and mock file systems"
-          },
-          {
-            "id": 4,
-            "title": "Add data validation and conversion utilities",
-            "description": "Implement utility functions for data validation, type conversion, and data structure manipulation",
-            "dependencies": [
-              1
-            ],
-            "details": "Add functions for data handling such as: safe_int_conversion(), validate_dict_structure(), flatten_dict(), deep_merge_dicts(), is_valid_date(), etc. Include comprehensive error handling and type checking.",
-            "status": "done",
-            "testStrategy": "Test with various data types and edge cases including None, empty values, and invalid inputs"
-          },
-          {
-            "id": 5,
-            "title": "Add logging and debugging utilities",
-            "description": "Implement utility functions for logging setup, debugging, and development helpers",
-            "dependencies": [
-              1,
-              2,
-              3,
-              4
-            ],
-            "details": "Add functions for logging configuration, debug helpers, and development utilities such as: setup_logger(), log_function_call() decorator, pretty_print_dict(), execution_timer() decorator, get_caller_info(). Ensure all utilities work together cohesively.",
-            "status": "done",
-            "testStrategy": "Test logging output, decorator functionality, and integration between all utility functions"
-          }
-        ]
-      },
-      {
-        "id": 6,
-        "title": "Implement load_prompt Function",
-        "description": "Implement the load_prompt function in utils.py to read prompt files from the prompts directory",
-        "details": "Implement the load_prompt function that takes a filename as input, constructs the full path to the file within the prompts directory, reads the file's content, and returns it as a string.\n\nImplementation:\n```python\nfrom pathlib import Path\n\ndef load_prompt(name: str) -> str:\n    \"\"\"\n    Load a prompt from the prompts directory.\n    \n    Args:\n        name: The filename of the prompt file\n        \n    Returns:\n        The content of the prompt file as a string\n    \"\"\"\n    prompt_path = Path('prompts') / name\n    with open(prompt_path, 'r', encoding='utf-8') as f:\n        return f.read()\n```",
-        "testStrategy": "Test the function with the function_agent.txt file to ensure it correctly loads and returns the prompt content",
-        "priority": "high",
-        "dependencies": [
-          5,
           4
         ],
         "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Create prompts directory structure",
-            "description": "Set up the prompts directory in the project root to store prompt template files",
-            "dependencies": [],
-            "details": "Create a 'prompts' directory in the project root if it doesn't exist. This directory will contain all prompt template files that the load_prompt function will read from.",
-            "status": "done",
-            "testStrategy": "Verify directory exists and is accessible for file operations"
-          },
-          {
-            "id": 2,
-            "title": "Implement basic load_prompt function structure",
-            "description": "Create the load_prompt function skeleton with proper type hints and docstring in utils.py",
-            "dependencies": [
-              1
-            ],
-            "details": "Add the function signature with name parameter of type str, return type str, and comprehensive docstring explaining the function's purpose, parameters, and return value.",
-            "status": "done",
-            "testStrategy": "Verify function exists and has correct signature"
-          },
-          {
-            "id": 3,
-            "title": "Implement file path construction logic",
-            "description": "Add logic to construct the full file path using pathlib.Path for cross-platform compatibility",
-            "dependencies": [
-              2
-            ],
-            "details": "Use Path('prompts') / name to construct the full path to the prompt file. Import pathlib.Path at the top of the file.",
-            "status": "done",
-            "testStrategy": "Test path construction with various filename inputs"
-          },
-          {
-            "id": 4,
-            "title": "Implement file reading with proper encoding",
-            "description": "Add file reading logic with UTF-8 encoding and proper file handle management",
-            "dependencies": [
-              3
-            ],
-            "details": "Use context manager (with statement) to open and read the file with UTF-8 encoding. Return the complete file content as a string using f.read().",
-            "status": "done",
-            "testStrategy": "Test reading various prompt files with different content and verify UTF-8 encoding works correctly"
-          },
-          {
-            "id": 5,
-            "title": "Add error handling and validation",
-            "description": "Implement proper error handling for file not found, permission errors, and other I/O exceptions",
-            "dependencies": [
-              4
-            ],
-            "details": "Add try-catch blocks to handle FileNotFoundError, PermissionError, and other IOError exceptions. Provide meaningful error messages that include the attempted file path.",
-            "status": "done",
-            "testStrategy": "Test error scenarios including non-existent files, permission issues, and invalid file paths"
-          }
-        ]
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Write Response Guidelines and Examples",
+        "description": "Create specific guidelines for how the agent should structure responses and provide example interactions",
+        "details": "Add response guidelines section to hub_front_desk_prompt.md including: 1) How to structure answers (greeting, main content, closing), 2) When to use Hawaiian phrases naturally, 3) How to handle questions outside the knowledge base, 4) Escalation procedures for complex queries, 5) Example conversations showing proper tone and style, 6) Guidelines for maintaining consistency in responses. Include 3-5 sample Q&A pairs demonstrating the desired interaction style.",
+        "testStrategy": "Review guidelines for clarity and completeness, ensure examples demonstrate all aspects of the defined persona",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "done",
+        "subtasks": []
       },
       {
         "id": 7,
-        "title": "Update agent.py Imports",
-        "description": "Add import statement for load_prompt function from utils.py in agent.py",
-        "details": "Modify agent.py to import the load_prompt function from the utils module.\n\nImplementation:\n```python\n# Add this import at the top of agent.py\nfrom utils import load_prompt\n```\n\nPlace the import statement with other imports at the top of the file, following Python import conventions.",
-        "testStrategy": "Verify the import works correctly by running a syntax check on agent.py and ensuring no import errors occur",
+        "title": "Write Unit Tests for Agent Code Changes",
+        "description": "Create unit tests for the agent.py modifications following TDD principles with 50% code coverage target",
+        "details": "Write unit tests in appropriate test file (e.g., test_agent.py) to cover: 1) Prompt file loading functionality, 2) Verification that new prompt content is properly loaded, 3) Basic agent initialization with new prompt, 4) Happy path scenarios for prompt usage. Use pytest framework and focus on primary functionality without edge cases. Aim for approximately 50% code coverage of modified code.",
+        "testStrategy": "Run pytest with coverage reporting to verify tests pass and achieve target coverage percentage",
         "priority": "medium",
         "dependencies": [
           6
         ],
         "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Locate and analyze agent.py file structure",
-            "description": "Find the agent.py file in the project directory and examine its current import structure to understand where to place the new import statement",
-            "dependencies": [],
-            "details": "Navigate to the project root and locate agent.py. Open the file and identify the existing import statements section at the top. Note the current import organization (standard library imports, third-party imports, local imports) to maintain proper import ordering according to PEP 8 conventions.",
-            "status": "done",
-            "testStrategy": "Verify that agent.py exists and can be opened for editing"
-          },
-          {
-            "id": 2,
-            "title": "Verify utils.py exists and contains load_prompt function",
-            "description": "Confirm that utils.py file exists in the same directory as agent.py and that it contains the load_prompt function that needs to be imported",
-            "dependencies": [
-              1
-            ],
-            "details": "Check that utils.py is present in the project directory. Open utils.py and verify that the load_prompt function is defined and available for import. Ensure the function signature and implementation are complete.",
-            "status": "done",
-            "testStrategy": "Attempt to import load_prompt from utils in a Python REPL to verify the function exists and is importable"
-          },
-          {
-            "id": 3,
-            "title": "Determine correct import placement position",
-            "description": "Identify the exact location within agent.py's import section where the new import statement should be placed according to Python import conventions",
-            "dependencies": [
-              1,
-              2
-            ],
-            "details": "Following PEP 8 import ordering: place the 'from utils import load_prompt' statement in the local imports section, after standard library and third-party imports but before any other code. Maintain alphabetical ordering within the local imports group if other local imports exist.",
-            "status": "done",
-            "testStrategy": "Review the import section structure to ensure proper PEP 8 compliance"
-          },
-          {
-            "id": 4,
-            "title": "Add the import statement to agent.py",
-            "description": "Insert the 'from utils import load_prompt' import statement at the determined location in agent.py",
-            "dependencies": [
-              3
-            ],
-            "details": "Open agent.py in edit mode and add the line 'from utils import load_prompt' at the identified position within the imports section. Ensure proper spacing and formatting consistent with existing import statements. Save the file after making the change.",
-            "status": "done",
-            "testStrategy": "Verify the import statement is syntactically correct and properly formatted"
-          },
-          {
-            "id": 5,
-            "title": "Validate import functionality and syntax",
-            "description": "Test that the new import statement works correctly and doesn't introduce any syntax errors or import conflicts",
-            "dependencies": [
-              4
-            ],
-            "details": "Run a syntax check on the modified agent.py file using 'python -m py_compile agent.py' or similar. Attempt to import the agent module to ensure the new import doesn't cause circular imports or other issues. Verify that load_prompt is now accessible within agent.py scope.",
-            "status": "done",
-            "testStrategy": "Execute 'python -c \"import agent\"' to verify no import errors occur and run basic syntax validation tools"
-          }
-        ]
+        "subtasks": []
       },
       {
         "id": 8,
-        "title": "Modify FunctionAgent to Use load_prompt",
-        "description": "Replace the hardcoded instructions string in FunctionAgent class with a call to load_prompt function",
-        "details": "Update the FunctionAgent class in agent.py to use load_prompt('function_agent.txt') instead of the hardcoded multi-line string for the instructions parameter.\n\nImplementation:\n```python\n# Replace the hardcoded instructions assignment with:\ninstructions = load_prompt('function_agent.txt')\n```\n\nRemove the original multi-line string and replace it with the function call.",
-        "testStrategy": "Verify the FunctionAgent class loads instructions correctly by instantiating it and checking that the instructions property contains the expected content",
+        "title": "Modify Agent.py to Load New Prompt File",
+        "description": "Update the agent.py file to load and use the new hub_front_desk_prompt.md file instead of the current prompt",
+        "details": "Modify agent.py to: 1) Update the prompt file path to load prompts/hub_front_desk_prompt.md, 2) Ensure proper file reading and error handling, 3) Verify the prompt content is correctly passed to the AI model, 4) Maintain backward compatibility if needed, 5) Add appropriate logging for prompt loading. Follow existing code patterns and maintain code quality standards.",
+        "testStrategy": "Run unit tests to verify prompt loading works correctly and agent initializes with new prompt content",
         "priority": "high",
         "dependencies": [
           7
         ],
         "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Create function_agent.txt prompt file",
-            "description": "Extract the hardcoded multi-line instructions string from FunctionAgent class and save it as a separate prompt file",
-            "dependencies": [],
-            "details": "Locate the hardcoded instructions string in the FunctionAgent class constructor, copy the exact content, and create a new file named 'function_agent.txt' in the prompts directory. Ensure the content maintains proper formatting and includes all original instructions.",
-            "status": "done",
-            "testStrategy": "Verify the file exists and contains the complete original instructions text"
-          },
-          {
-            "id": 2,
-            "title": "Import load_prompt function in agent.py",
-            "description": "Add the necessary import statement to make load_prompt function available in the agent.py file",
-            "dependencies": [],
-            "details": "Add 'from .utils import load_prompt' or appropriate import path at the top of agent.py file. Verify the import path matches the actual location of the load_prompt function in the project structure.",
-            "status": "done",
-            "testStrategy": "Ensure no import errors occur when the file is loaded"
-          },
-          {
-            "id": 3,
-            "title": "Replace hardcoded instructions with load_prompt call",
-            "description": "Substitute the multi-line instructions string assignment with a call to load_prompt('function_agent.txt')",
-            "dependencies": [
-              1,
-              2
-            ],
-            "details": "Locate the instructions parameter assignment in FunctionAgent constructor and replace the hardcoded string with 'instructions = load_prompt('function_agent.txt')'. Remove all the original multi-line string content while preserving the variable assignment structure.",
-            "status": "done",
-            "testStrategy": "Verify the instructions variable receives the same content as before through the load_prompt function"
-          },
-          {
-            "id": 4,
-            "title": "Test FunctionAgent instantiation",
-            "description": "Verify that FunctionAgent can be successfully instantiated with the new load_prompt implementation",
-            "dependencies": [
-              3
-            ],
-            "details": "Create test cases to instantiate FunctionAgent objects and verify they initialize correctly with the loaded prompt. Check that the instructions property contains the expected content and that all agent functionality remains intact.",
-            "status": "done",
-            "testStrategy": "Unit tests for FunctionAgent constructor and integration tests for basic agent operations"
-          },
-          {
-            "id": 5,
-            "title": "Validate prompt content consistency",
-            "description": "Ensure the loaded prompt content matches exactly with the original hardcoded instructions and agent behavior is unchanged",
-            "dependencies": [
-              4
-            ],
-            "details": "Compare the content loaded from function_agent.txt with the original hardcoded string to ensure no data loss or formatting issues. Run existing tests to verify agent behavior remains consistent. Check for any whitespace, encoding, or line ending differences.",
-            "status": "done",
-            "testStrategy": "Content comparison tests and regression testing of existing FunctionAgent functionality"
-          }
-        ]
+        "subtasks": []
       },
       {
         "id": 9,
-        "title": "Test Application Functionality",
-        "description": "Run comprehensive tests to ensure the application works identically to before the refactoring",
-        "details": "Execute the application and verify that it runs without any change in behavior from the user's perspective. Test all functionality that depends on the agent instructions.\n\nTest scenarios:\n1. Start the application\n2. Verify the FunctionAgent loads correctly\n3. Test agent responses to ensure instructions are properly loaded\n4. Compare behavior with previous version to ensure no regressions\n\nImplementation:\n```python\n# Test script to verify functionality\nfrom agent import FunctionAgent\n\n# Instantiate agent and verify instructions are loaded\nagent = FunctionAgent()\nprint(f\"Instructions loaded: {len(agent.instructions)} characters\")\nprint(f\"First 100 chars: {agent.instructions[:100]}\")\n```",
-        "testStrategy": "Compare application behavior before and after refactoring to ensure identical functionality and performance",
+        "title": "Manual Testing and Validation",
+        "description": "Conduct manual testing of the enhanced agent using test questions derived from the training manual",
+        "details": "Test the agent with specific questions mentioned in the PRD and additional relevant queries: 1) 'What are the staffed hours at the Kaka'ako location?', 2) 'Tell me about the Virtual Office service.', 3) General greeting and conversation flow, 4) Hawaiian phrase usage appropriateness, 5) Professional yet casual tone verification, 6) Knowledge accuracy compared to training manual. Document test results and any issues found.",
+        "testStrategy": "Create a test script with 8-10 questions covering different aspects of the knowledge base and persona, document responses and evaluate against success criteria",
         "priority": "high",
         "dependencies": [
           8
         ],
-        "status": "done",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Create Test Environment Setup",
-            "description": "Set up a controlled test environment to run comprehensive functionality tests and establish baseline measurements for comparison",
-            "dependencies": [],
-            "details": "Create a test script that initializes the application environment, captures initial state, and sets up logging for detailed comparison. Include setup for both the refactored version and a reference to the previous version's behavior if available.",
-            "status": "done",
-            "testStrategy": "Verify test environment can successfully initialize and capture baseline metrics"
-          },
-          {
-            "id": 2,
-            "title": "Test FunctionAgent Instantiation and Instruction Loading",
-            "description": "Verify that the FunctionAgent can be instantiated correctly and that instructions are properly loaded from the external file",
-            "dependencies": [
-              1
-            ],
-            "details": "Implement the provided test code to instantiate FunctionAgent, verify instructions are loaded, check instruction length and content preview. Add validation that instructions match expected format and content structure.",
-            "status": "done",
-            "testStrategy": "Assert that instructions are non-empty, have expected length, and contain key instruction phrases from the original embedded version"
-          },
-          {
-            "id": 3,
-            "title": "Test Agent Response Generation",
-            "description": "Execute test scenarios to verify the agent generates appropriate responses and follows the loaded instructions correctly",
-            "dependencies": [
-              2
-            ],
-            "details": "Create test cases with various input scenarios that would trigger different parts of the agent instructions. Test edge cases, normal operations, and error conditions. Capture and analyze response quality and instruction adherence.",
-            "status": "done",
-            "testStrategy": "Compare response patterns, instruction following, and output quality against documented expected behaviors from the pre-refactoring version"
-          },
-          {
-            "id": 4,
-            "title": "Perform Regression Testing",
-            "description": "Run comprehensive regression tests comparing current behavior with the previous version to identify any functional differences or regressions",
-            "dependencies": [
-              3
-            ],
-            "details": "Execute identical test scenarios on both versions, compare outputs, response times, error handling, and overall behavior. Document any differences found and verify they are intentional improvements rather than regressions.",
-            "status": "done",
-            "testStrategy": "Use automated comparison tools where possible, manual verification for complex scenarios, and maintain detailed logs of all differences found"
-          },
-          {
-            "id": 5,
-            "title": "Validate Complete Application Workflow",
-            "description": "Test the entire application workflow end-to-end to ensure all components work together seamlessly after the refactoring",
-            "dependencies": [
-              4
-            ],
-            "details": "Run complete user scenarios from application startup through various agent interactions to shutdown. Verify all functionality that depends on agent instructions works correctly, including error handling, edge cases, and performance characteristics.",
-            "status": "done",
-            "testStrategy": "Execute real-world usage patterns, stress testing, and boundary condition testing to ensure robust operation under various conditions"
-          }
-        ]
+        "status": "pending",
+        "subtasks": []
       },
       {
         "id": 10,
-        "title": "Commit and Create Pull Request",
-        "description": "Commit all changes and create a pull request for review following the specified development workflow",
-        "details": "Commit all changes to the feature branch with clear and descriptive messages, push to remote repository, and create a pull request for review.\n\nImplementation:\n```bash\n# Stage all changes\ngit add .\n\n# Commit with descriptive message\ngit commit -m \"feat: externalize agent prompt to separate file\n\n- Create prompts directory structure\n- Extract instructions from agent.py to prompts/function_agent.txt\n- Implement load_prompt utility function in utils.py\n- Update FunctionAgent to use external prompt file\n- Maintain identical application behavior\"\n\n# Push feature branch\ngit push origin feature/extract-prompt\n\n# Create PR (via GitHub CLI or web interface)\ngh pr create --title \"Externalize Agent Prompt\" --body \"Implements prompt externalization as specified in PRD\" --assignee raseniero\n```",
-        "testStrategy": "Verify all files are committed, branch is pushed successfully, and pull request is created with correct assignee (raseniero)",
+        "title": "Create Pull Request and Documentation",
+        "description": "Commit all changes, push feature branch, and create pull request for review following the development workflow",
+        "details": "Complete the development workflow: 1) Commit all changes to feature branch with descriptive commit messages, 2) Push feature/improve-agent-prompt branch to remote repository, 3) Create Pull Request from feature branch to main, 4) Assign PR to 'raseniero' for review, 5) Include comprehensive PR description with changes made, testing performed, and success metrics achieved, 6) Update any relevant documentation or README files.",
+        "testStrategy": "Verify all files are committed, branch is pushed successfully, and PR is created with proper assignee and description",
         "priority": "medium",
         "dependencies": [
           9
         ],
         "status": "pending",
-        "subtasks": [
-          {
-            "id": 1,
-            "title": "Stage and Review Changes",
-            "description": "Stage all modified files and review the changes to ensure they are complete and correct before committing",
-            "dependencies": [],
-            "details": "Use 'git add .' to stage all changes, then run 'git status' and 'git diff --cached' to review what will be committed. Verify that all intended changes are included and no unintended files are staged.",
-            "status": "pending",
-            "testStrategy": "Review git status output to confirm only intended files are staged"
-          },
-          {
-            "id": 2,
-            "title": "Create Descriptive Commit",
-            "description": "Commit the staged changes with a clear, descriptive commit message following conventional commit format",
-            "dependencies": [
-              1
-            ],
-            "details": "Execute 'git commit -m \"feat: externalize agent prompt to separate file\\n\\n- Create prompts directory structure\\n- Extract instructions from agent.py to prompts/function_agent.txt\\n- Implement load_prompt utility function in utils.py\\n- Update FunctionAgent to use external prompt file\\n- Maintain identical application behavior\"' to create a commit with proper formatting and detailed description.",
-            "status": "pending",
-            "testStrategy": "Verify commit was created successfully with 'git log --oneline -1'"
-          },
-          {
-            "id": 3,
-            "title": "Push Feature Branch to Remote",
-            "description": "Push the committed changes to the remote repository on the feature branch",
-            "dependencies": [
-              2
-            ],
-            "details": "Execute 'git push origin feature/extract-prompt' to push the feature branch to the remote repository. Ensure the branch is properly tracked and all commits are uploaded.",
-            "status": "pending",
-            "testStrategy": "Confirm push success and verify branch exists on remote with 'git ls-remote origin feature/extract-prompt'"
-          },
-          {
-            "id": 4,
-            "title": "Create Pull Request",
-            "description": "Create a pull request for the feature branch using GitHub CLI or web interface",
-            "dependencies": [
-              3
-            ],
-            "details": "Use 'gh pr create --title \"Externalize Agent Prompt\" --body \"Implements prompt externalization as specified in PRD\" --assignee raseniero' to create the PR. If GitHub CLI is not available, use the GitHub web interface to create the PR with the same title, description, and assignee.",
-            "status": "pending",
-            "testStrategy": "Verify PR was created successfully and appears in the repository's pull requests list"
-          },
-          {
-            "id": 5,
-            "title": "Verify Pull Request Details",
-            "description": "Review and verify that the pull request contains all necessary information and is properly configured for review",
-            "dependencies": [
-              4
-            ],
-            "details": "Check that the PR has the correct title, description, assignee, and includes all committed changes. Verify that the PR is targeting the correct base branch and that all CI checks are triggered if configured.",
-            "status": "pending",
-            "testStrategy": "Review PR page to confirm all details are correct and any automated checks are running"
-          }
-        ]
+        "subtasks": []
       }
     ],
     "metadata": {
-      "created": "2025-06-22T03:31:28.942Z",
-      "updated": "2025-06-22T03:41:49.246Z",
+      "created": "2025-06-25T06:07:46.049Z",
+      "updated": "2025-06-25T06:25:18.253Z",
       "description": "Tasks for master context"
     }
   }
