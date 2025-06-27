@@ -38,6 +38,13 @@ htmlcov/
 # Notebook checkpoints
 .ipynb_checkpoints
 
+# Node.js/JavaScript Project Files
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
 # IDE and Editor Files
 # VSCode
 .vscode/

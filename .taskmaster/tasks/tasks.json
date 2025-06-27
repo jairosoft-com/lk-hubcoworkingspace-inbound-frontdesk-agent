@@ -3,136 +3,680 @@
     "tasks": [
       {
         "id": 1,
-        "title": "Create Feature Branch for Agent Enhancement",
+        "title": "Create Feature Branch",
         "description": "Create a new feature branch from main following the branching strategy defined in branching-merging-strategy.mdc",
-        "details": "Create a new Git branch named 'feature/improve-agent-prompt' from the main branch. This branch will contain all changes related to the AI agent enhancement. Use git checkout -b feature/improve-agent-prompt to create and switch to the new branch.",
-        "testStrategy": "Verify branch creation with git branch command and confirm current branch is feature/improve-agent-prompt",
+        "details": "Execute git commands to create and switch to a new feature branch named 'feature/refine-conversational-flow' from the main branch. This follows the development workflow specified in the PRD and ensures proper version control for the prompt refinement changes.",
+        "testStrategy": "Verify branch creation with 'git branch' command and confirm current branch is the new feature branch",
         "priority": "high",
         "dependencies": [],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Verify Current Git Status and Main Branch",
+            "description": "Check the current git status to ensure the working directory is clean and verify that the main branch is up to date with the remote repository",
+            "dependencies": [],
+            "details": "Execute 'git status' to check for uncommitted changes, then 'git checkout main' to switch to main branch, followed by 'git pull origin main' to ensure the local main branch is synchronized with the remote repository",
+            "status": "done",
+            "testStrategy": "Verify git status shows 'working tree clean' and main branch is current with remote"
+          },
+          {
+            "id": 2,
+            "title": "Read and Validate Branching Strategy Documentation",
+            "description": "Access and review the branching-merging-strategy.mdc file to understand the specific naming conventions, branch creation rules, and workflow requirements",
+            "dependencies": [
+              1
+            ],
+            "details": "Open branching-merging-strategy.mdc file, identify the feature branch naming pattern, confirm the source branch requirements (main), and note any specific workflow steps or restrictions",
+            "status": "done",
+            "testStrategy": "Document key branching rules and verify the feature branch name 'feature/refine-conversational-flow' follows the documented conventions"
+          },
+          {
+            "id": 3,
+            "title": "Create Feature Branch from Main",
+            "description": "Execute the git command to create a new feature branch named 'feature/refine-conversational-flow' from the current main branch",
+            "dependencies": [
+              2
+            ],
+            "details": "Run 'git checkout -b feature/refine-conversational-flow' to create and switch to the new feature branch in one command, ensuring it branches from the current main branch",
+            "status": "done",
+            "testStrategy": "Verify the new branch is created and active using 'git branch' command to list branches and confirm current branch indicator"
+          },
+          {
+            "id": 4,
+            "title": "Verify Branch Creation and Setup",
+            "description": "Confirm the feature branch was created successfully, is currently active, and has the correct commit history from main",
+            "dependencies": [
+              3
+            ],
+            "details": "Execute 'git branch' to verify branch exists and is active, 'git log --oneline -5' to confirm it has the same recent commits as main, and 'git remote -v' to verify remote tracking is properly configured",
+            "status": "done",
+            "testStrategy": "Validate that current branch shows as 'feature/refine-conversational-flow', commit history matches main branch, and branch is ready for development work"
+          },
+          {
+            "id": 5,
+            "title": "Push Feature Branch to Remote Repository",
+            "description": "Push the newly created feature branch to the remote repository and set up upstream tracking for future push/pull operations",
+            "dependencies": [
+              4
+            ],
+            "details": "Execute 'git push -u origin feature/refine-conversational-flow' to push the branch to remote and establish upstream tracking, enabling simplified future git push/pull commands",
+            "status": "done",
+            "testStrategy": "Confirm branch appears in remote repository and upstream tracking is set by running 'git branch -vv' to show tracking information"
+          }
+        ]
       },
       {
         "id": 2,
-        "title": "Analyze Training Manual Content",
-        "description": "Review and analyze the existing HubCoworkingHi-FrontDesk-Training-Guide.md to understand the knowledge base and operational procedures",
-        "details": "Thoroughly read through prompts/HubCoworkingHi-FrontDesk-Training-Guide.md to understand: 1) Hub Coworking Hawaii's services and procedures, 2) Common customer questions and appropriate responses, 3) Operational details like staffed hours, locations, and policies, 4) Company culture and communication style. Document key information that needs to be distilled into the AI prompt.",
-        "testStrategy": "Create a summary document of key points extracted from the training manual to validate comprehensive understanding",
+        "title": "Backup Current Prompt File",
+        "description": "Create a backup copy of the existing hub_front_desk_prompt.md file before making any modifications",
+        "details": "Copy the file 'prompts/hub_front_desk_prompt.md' to 'prompts/hub_front_desk_prompt.bak.md' using file system operations. This ensures a safe rollback point as specified in the functional requirements and preserves the original prompt configuration.",
+        "testStrategy": "Verify the backup file exists and contains identical content to the original file using file comparison tools",
         "priority": "high",
         "dependencies": [
           1
         ],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Verify Source File Existence and Permissions",
+            "description": "Check that the source file 'prompts/hub_front_desk_prompt.md' exists and is readable before attempting to create a backup",
+            "dependencies": [],
+            "details": "Use file system operations to check if the source file exists at the specified path. Verify read permissions on the file and that the prompts directory is accessible. Handle cases where the file might not exist or be inaccessible.",
+            "status": "done",
+            "testStrategy": "Test with existing file, non-existent file, and file with restricted permissions"
+          },
+          {
+            "id": 2,
+            "title": "Validate Target Directory Structure",
+            "description": "Ensure the target directory 'prompts/' exists and has write permissions for creating the backup file",
+            "dependencies": [
+              1
+            ],
+            "details": "Check that the prompts directory exists and is writable. If the directory doesn't exist, create it with appropriate permissions. Verify that there's sufficient disk space for the backup operation.",
+            "status": "done",
+            "testStrategy": "Test with existing directory, non-existent directory, and directory with restricted write permissions"
+          },
+          {
+            "id": 3,
+            "title": "Handle Existing Backup File Conflicts",
+            "description": "Check if 'prompts/hub_front_desk_prompt.bak.md' already exists and implement conflict resolution strategy",
+            "dependencies": [
+              2
+            ],
+            "details": "Check if the backup file already exists. If it does, implement a strategy such as creating a timestamped backup name (e.g., hub_front_desk_prompt.bak.YYYYMMDD_HHMMSS.md) or prompting for overwrite confirmation, depending on requirements.",
+            "status": "done",
+            "testStrategy": "Test with no existing backup, existing backup file, and multiple backup scenarios"
+          },
+          {
+            "id": 4,
+            "title": "Execute File Copy Operation",
+            "description": "Perform the actual file copy from source to backup location with error handling",
+            "dependencies": [
+              3
+            ],
+            "details": "Use appropriate file system copy operations to duplicate the content from 'prompts/hub_front_desk_prompt.md' to 'prompts/hub_front_desk_prompt.bak.md'. Implement proper error handling for I/O operations, disk space issues, and permission problems.",
+            "status": "done",
+            "testStrategy": "Test successful copy, copy with insufficient disk space, and copy with permission errors"
+          },
+          {
+            "id": 5,
+            "title": "Verify Backup Integrity and Completion",
+            "description": "Confirm that the backup file was created successfully and contains identical content to the source file",
+            "dependencies": [
+              4
+            ],
+            "details": "Verify that the backup file exists at the target location and has the same size and content as the source file. Optionally perform a checksum comparison to ensure data integrity. Log the successful backup operation with timestamp.",
+            "status": "done",
+            "testStrategy": "Compare file sizes, perform content verification, and test with corrupted copy scenarios"
+          }
+        ]
       },
       {
         "id": 3,
-        "title": "Create Hub Front Desk Prompt File",
-        "description": "Create the new hub_front_desk_prompt.md file in the prompts/ directory with the basic structure",
-        "details": "Create a new Markdown file at prompts/hub_front_desk_prompt.md with the following structure: 1) Header section defining the agent's role as Front Desk Host, 2) Persona definition section, 3) Knowledge base section derived from training manual, 4) Response guidelines section, 5) Local Hawaiian language integration instructions. Ensure the file follows proper Markdown formatting.",
-        "testStrategy": "Verify file creation and basic structure by checking file exists at correct path and contains all required sections",
-        "priority": "high",
+        "title": "Analyze Current Prompt Structure",
+        "description": "Review and document the current structure of hub_front_desk_prompt.md to identify sections that need modification",
+        "details": "Open and analyze the current prompt file to locate the 'Natural Speech Patterns' section, 'Example Conversations' section, and 'Response Guidelines' section. Document the current usage of 'Oh!' and identify all instances where conversational connectors are used. This analysis will guide the subsequent modification tasks.",
+        "testStrategy": "Create a documented analysis showing current filler word usage patterns and section locations within the prompt",
+        "priority": "medium",
         "dependencies": [
           2
         ],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Load and Parse Prompt File Structure",
+            "description": "Open the hub_front_desk_prompt.md file and parse its overall structure to identify all major sections and their hierarchical organization",
+            "dependencies": [],
+            "details": "Read the markdown file and create a structural map of all headers (H1, H2, H3, etc.), noting their positions, nesting levels, and content boundaries. Use markdown parsing to identify section delimiters and create an index of all major content blocks.",
+            "status": "done",
+            "testStrategy": "Verify that all sections are correctly identified by checking header count and ensuring no content is missed between sections"
+          },
+          {
+            "id": 2,
+            "title": "Locate and Extract Target Sections",
+            "description": "Identify and extract the specific sections mentioned: 'Natural Speech Patterns', 'Example Conversations', and 'Response Guidelines'",
+            "dependencies": [
+              1
+            ],
+            "details": "Search for exact section titles or similar variations using case-insensitive matching. Extract the full content of each section including subsections. If sections don't exist with exact names, identify the closest matching sections that contain similar content.",
+            "status": "done",
+            "testStrategy": "Confirm each target section is found and extracted completely by validating start/end boundaries and ensuring no truncated content"
+          },
+          {
+            "id": 3,
+            "title": "Analyze Current 'Oh!' Usage Patterns",
+            "description": "Scan the entire prompt file to identify all instances where 'Oh!' is used and document the context and frequency of its usage",
+            "dependencies": [
+              1
+            ],
+            "details": "Perform a comprehensive text search for 'Oh!' (case variations included) and catalog each occurrence with surrounding context (2-3 sentences before/after). Note the conversational situations where it appears and its intended function in each case.",
+            "status": "done",
+            "testStrategy": "Validate search completeness by using multiple search patterns and manually reviewing a sample of results for accuracy"
+          },
+          {
+            "id": 4,
+            "title": "Inventory All Conversational Connectors",
+            "description": "Identify and catalog all conversational connectors, transition phrases, and speech patterns used throughout the prompt file",
+            "dependencies": [
+              2
+            ],
+            "details": "Search for common conversational elements like 'Well', 'So', 'Actually', 'You know', 'I mean', 'Let me', 'How about', etc. Create a comprehensive list with usage frequency and contextual examples. Focus on elements that create natural speech flow and human-like conversation patterns.",
+            "status": "done",
+            "testStrategy": "Cross-reference findings with established lists of conversational connectors to ensure comprehensive coverage"
+          },
+          {
+            "id": 5,
+            "title": "Document Analysis Results and Modification Targets",
+            "description": "Compile all findings into a structured analysis report that will guide subsequent modification tasks",
+            "dependencies": [
+              2,
+              3,
+              4
+            ],
+            "details": "Create a comprehensive document containing: section structure map, extracted target sections with line numbers, complete 'Oh!' usage inventory with context, full conversational connector catalog, and specific recommendations for areas needing modification. Include priority rankings for modification targets.",
+            "status": "done",
+            "testStrategy": "Review the analysis report for completeness by ensuring all original task requirements are addressed and cross-checking findings against the source file"
+          }
+        ]
       },
       {
         "id": 4,
-        "title": "Define Agent Persona and Communication Style",
-        "description": "Develop the detailed persona instructions for the AI agent to be conversational, friendly, professional, casual, and localized with Hawaiian elements",
-        "details": "Write comprehensive persona instructions in hub_front_desk_prompt.md that define: 1) Conversational & Friendly tone - engaging and approachable language, 2) Professional demeanor - accurate and reliable responses, 3) Casual communication style - relaxed and natural tone, 4) Hawaiian localization - incorporate 'aloha', 'mahalo', and other appropriate local phrases, 5) Specific examples of how to greet users and respond in character. Include guidelines for when and how to use Hawaiian phrases appropriately.",
-        "testStrategy": "Review persona section for completeness and ensure all four required characteristics (conversational, professional, casual, localized) are clearly defined with examples",
+        "title": "Revise Natural Speech Patterns Section",
+        "description": "Update the Natural Speech Patterns section to de-emphasize 'Oh!' and introduce varied conversational connectors",
+        "details": "Edit the Natural Speech Patterns section in hub_front_desk_prompt.md to reduce prominence of 'Oh!' and add guidance for using diverse conversational connectors such as 'Alright,' 'Okay, so,' 'Gotcha,' 'Sure thing,' 'Well,' 'Let me see,' etc. Replace or supplement existing guidance to encourage natural variety in speech patterns.",
+        "testStrategy": "Review the updated section to ensure 'Oh!' is de-emphasized and multiple alternative connectors are prominently featured",
         "priority": "high",
         "dependencies": [
           3
         ],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Analyze Current Natural Speech Patterns Section",
+            "description": "Review the existing Natural Speech Patterns section in hub_front_desk_prompt.md to identify all instances of 'Oh!' usage and catalog current conversational connector guidance",
+            "dependencies": [],
+            "details": "Open hub_front_desk_prompt.md and locate the Natural Speech Patterns section. Document all current examples that use 'Oh!' as a conversational connector. Create a list of existing conversational connectors mentioned in the section. Note the current structure and organization of the guidance to understand what needs to be revised.",
+            "status": "done",
+            "testStrategy": "Verify that all 'Oh!' instances are identified and current connector examples are catalogued completely"
+          },
+          {
+            "id": 2,
+            "title": "Design Varied Conversational Connector Framework",
+            "description": "Create a comprehensive list of diverse conversational connectors and organize them by context and usage scenarios",
+            "dependencies": [
+              1
+            ],
+            "details": "Develop categories for conversational connectors such as: acknowledgment ('Alright,' 'Gotcha,' 'Sure thing'), transition ('Okay, so,' 'Well,' 'Now then'), processing ('Let me see,' 'Hmm,' 'Right'), and confirmation ('Perfect,' 'Absolutely,' 'Exactly'). For each connector, define appropriate usage contexts and provide example scenarios where they would be most natural.",
+            "status": "done",
+            "testStrategy": "Review connector categories for completeness and ensure examples cover common front desk interaction scenarios"
+          },
+          {
+            "id": 3,
+            "title": "Rewrite Speech Pattern Guidelines",
+            "description": "Replace existing 'Oh!' focused guidance with new varied conversational connector instructions",
+            "dependencies": [
+              2
+            ],
+            "details": "Rewrite the Natural Speech Patterns section to emphasize variety in conversational connectors. Remove or significantly reduce 'Oh!' examples and replace them with the diverse connectors from the framework. Structure the guidance to encourage rotation between different connectors rather than relying on a single pattern. Include specific instructions on when to use different types of connectors.",
+            "status": "done",
+            "testStrategy": "Ensure 'Oh!' usage is minimized and new guidance promotes natural variety in speech patterns"
+          },
+          {
+            "id": 4,
+            "title": "Add Practical Usage Examples",
+            "description": "Create realistic front desk conversation examples demonstrating the varied conversational connectors in context",
+            "dependencies": [
+              3
+            ],
+            "details": "Develop 3-5 sample conversations that showcase different conversational connectors being used naturally in typical front desk scenarios (check-in, inquiries, problem resolution, etc.). Each example should demonstrate multiple connectors and show how variety creates more natural speech patterns. Include both brief exchanges and longer conversations to show connector usage in different interaction lengths.",
+            "status": "done",
+            "testStrategy": "Validate that examples sound natural and demonstrate effective use of varied connectors in realistic scenarios"
+          },
+          {
+            "id": 5,
+            "title": "Integrate and Validate Updated Section",
+            "description": "Incorporate the revised Natural Speech Patterns section into hub_front_desk_prompt.md and ensure consistency with overall prompt structure",
+            "dependencies": [
+              4
+            ],
+            "details": "Replace the existing Natural Speech Patterns section with the updated content. Ensure the new section maintains consistent formatting and tone with the rest of the document. Verify that the guidance integrates well with other sections and doesn't conflict with existing instructions. Review the entire document flow to ensure the updated section enhances the overall prompt effectiveness.",
+            "status": "done",
+            "testStrategy": "Perform a complete document review to ensure the updated section integrates seamlessly and maintains document coherence"
+          }
+        ]
       },
       {
         "id": 5,
-        "title": "Extract and Structure Knowledge Base from Training Manual",
-        "description": "Distill the training manual content into actionable instructions and knowledge that the AI can use to respond to queries",
-        "details": "Transform the training manual content into structured knowledge sections in hub_front_desk_prompt.md: 1) Services offered (Virtual Office, meeting rooms, etc.), 2) Location details and staffed hours, 3) Policies and procedures, 4) Common FAQ responses, 5) Pricing information if available, 6) Contact information and escalation procedures. Format as clear, actionable instructions the AI can follow when responding to specific types of queries.",
-        "testStrategy": "Cross-reference extracted knowledge with original training manual to ensure no critical information is lost and all major topics are covered",
-        "priority": "medium",
+        "title": "Add Latency Masking Instructions",
+        "description": "Implement Strategy A by adding high-priority instructions for immediate filler-first responses to mask processing latency",
+        "details": "Add a new, high-priority instruction to the Response Guidelines section directing the agent to immediately begin responses with thinking filler phrases like 'Umm, let me see...', 'Well...', 'Okay, so...' as soon as processing starts. This instruction should be prominently placed and clearly emphasize the 'filler-first' approach to cover model think time.",
+        "testStrategy": "Verify the new instruction is clearly visible in the Response Guidelines and emphasizes immediate response initiation with filler phrases",
+        "priority": "high",
         "dependencies": [
           4
         ],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Define Filler Phrase Library and Selection Logic",
+            "description": "Create a comprehensive library of appropriate filler phrases and implement logic for selecting them contextually",
+            "dependencies": [],
+            "details": "Compile a diverse set of natural filler phrases categorized by context (thinking, processing, clarifying, etc.). Examples include 'Umm, let me see...', 'Well...', 'Okay, so...', 'Let me think about this...', 'Hmm, that's interesting...'. Implement selection logic that considers conversation context, user query type, and avoids repetitive patterns.",
+            "status": "done",
+            "testStrategy": "Unit tests for phrase selection logic with various input contexts and verification of phrase diversity over multiple calls"
+          },
+          {
+            "id": 2,
+            "title": "Implement Immediate Response Trigger Mechanism",
+            "description": "Create a system that automatically triggers filler phrase insertion at the start of response processing",
+            "dependencies": [
+              1
+            ],
+            "details": "Implement a response interceptor that activates immediately when a user query is received, before main processing begins. This mechanism should select an appropriate filler phrase from the library and initiate response streaming with minimal delay. Ensure the trigger works consistently across different query types and processing loads.",
+            "status": "done",
+            "testStrategy": "Integration tests measuring response initiation time and verifying filler phrases appear before main content processing"
+          },
+          {
+            "id": 3,
+            "title": "Add High-Priority Instruction to Response Guidelines",
+            "description": "Insert a prominently placed, high-priority instruction in the Response Guidelines section mandating filler-first responses",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Add a new instruction at the top of the Response Guidelines section with clear formatting (bold, highlighted, or boxed) stating: 'PRIORITY: Always begin responses immediately with natural filler phrases (e.g., Umm, let me see..., Well..., Okay, so...) to mask processing latency. Start streaming response with filler before main content processing.' Include examples and emphasize the immediate nature of this requirement.",
+            "status": "done",
+            "testStrategy": "Manual review of guidelines placement and formatting, plus automated checks that responses consistently start with filler phrases"
+          },
+          {
+            "id": 4,
+            "title": "Implement Seamless Transition from Filler to Main Content",
+            "description": "Create smooth handoff mechanism from initial filler phrases to substantive response content",
+            "dependencies": [
+              2,
+              3
+            ],
+            "details": "Develop logic that seamlessly transitions from the initial filler phrase to the main response content without awkward pauses or repetition. Implement buffering and streaming coordination to ensure natural flow. The transition should feel conversational and maintain context continuity between the filler and actual response.",
+            "status": "done",
+            "testStrategy": "User experience testing focusing on response flow naturalness and A/B testing comparing responses with and without smooth transitions"
+          },
+          {
+            "id": 5,
+            "title": "Add Monitoring and Performance Validation",
+            "description": "Implement monitoring to track latency masking effectiveness and response quality metrics",
+            "dependencies": [
+              4
+            ],
+            "details": "Create monitoring dashboard tracking key metrics: time-to-first-token, user perception of responsiveness, filler phrase usage patterns, and overall response quality scores. Implement alerts for when filler-first responses fail to trigger or when latency masking becomes ineffective. Include A/B testing framework to measure user satisfaction with latency masking.",
+            "status": "done",
+            "testStrategy": "Performance monitoring with baseline measurements, automated alerting tests, and user feedback collection mechanisms"
+          }
+        ]
       },
       {
         "id": 6,
-        "title": "Write Response Guidelines and Examples",
-        "description": "Create specific guidelines for how the agent should structure responses and provide example interactions",
-        "details": "Add response guidelines section to hub_front_desk_prompt.md including: 1) How to structure answers (greeting, main content, closing), 2) When to use Hawaiian phrases naturally, 3) How to handle questions outside the knowledge base, 4) Escalation procedures for complex queries, 5) Example conversations showing proper tone and style, 6) Guidelines for maintaining consistency in responses. Include 3-5 sample Q&A pairs demonstrating the desired interaction style.",
-        "testStrategy": "Review guidelines for clarity and completeness, ensure examples demonstrate all aspects of the defined persona",
+        "title": "Update Example Conversations",
+        "description": "Revise existing example conversations to reflect the new filler-first response pattern and reduced use of 'Oh!'",
+        "details": "Modify all example conversations in the prompt file to demonstrate the new conversational patterns. Replace instances of 'Oh!' with varied connectors and ensure each example response begins with appropriate thinking filler phrases. Maintain the natural flow while showcasing the desired behavioral changes.",
+        "testStrategy": "Review all updated examples to confirm they demonstrate varied filler usage and filler-first response patterns without overusing 'Oh!'",
         "priority": "medium",
         "dependencies": [
           5
         ],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Audit Current Example Conversations",
+            "description": "Review all existing example conversations in the prompt file to identify instances of 'Oh!' and catalog current response patterns",
+            "dependencies": [],
+            "details": "Go through each example conversation systematically, documenting: 1) All instances of 'Oh!' and their context, 2) Current opening patterns for responses, 3) Overall conversational flow and structure. Create a comprehensive inventory of what needs to be changed.",
+            "status": "done",
+            "testStrategy": "Create a checklist of all identified instances and verify complete coverage of the prompt file"
+          },
+          {
+            "id": 2,
+            "title": "Design Replacement Connector Phrases",
+            "description": "Create a diverse set of alternative connector phrases and thinking fillers to replace 'Oh!' instances",
+            "dependencies": [
+              1
+            ],
+            "details": "Develop varied alternatives such as 'Hmm', 'Well', 'Let me think', 'I see', 'Right', 'Actually', etc. Ensure the replacements match the context and tone of each conversation. Create a mapping guide showing which alternatives work best in different conversational contexts.",
+            "status": "done",
+            "testStrategy": "Review alternatives for naturalness and variety, ensuring no single replacement is overused"
+          },
+          {
+            "id": 3,
+            "title": "Implement Filler-First Response Pattern",
+            "description": "Modify example responses to begin with appropriate thinking filler phrases before providing the main content",
+            "dependencies": [
+              2
+            ],
+            "details": "Restructure each example response to start with natural thinking fillers like 'Let me consider this...', 'Hmm, that's interesting...', 'Well, looking at this...', etc. Ensure the fillers feel authentic and match the complexity/tone of the question being answered.",
+            "status": "done",
+            "testStrategy": "Verify each response starts with a thinking filler and flows naturally into the main content"
+          },
+          {
+            "id": 4,
+            "title": "Replace 'Oh!' Instances with Varied Connectors",
+            "description": "Systematically replace all identified 'Oh!' instances with appropriate alternative connectors from the designed set",
+            "dependencies": [
+              3
+            ],
+            "details": "Use the mapping guide from subtask 2 to replace each 'Oh!' with contextually appropriate alternatives. Ensure variety across the entire set of examples so no single replacement dominates. Maintain the original intent and emotional tone of each conversation.",
+            "status": "done",
+            "testStrategy": "Confirm zero instances of 'Oh!' remain and verify natural flow of conversations with new connectors"
+          },
+          {
+            "id": 5,
+            "title": "Review and Refine Conversational Flow",
+            "description": "Conduct final review of all modified examples to ensure natural flow, consistency, and proper demonstration of new patterns",
+            "dependencies": [
+              4
+            ],
+            "details": "Read through all updated examples to verify: 1) Natural conversational flow is maintained, 2) New patterns are clearly demonstrated, 3) Variety in language use across examples, 4) Consistency with the desired behavioral changes. Make final adjustments for optimal naturalness and effectiveness.",
+            "status": "done",
+            "testStrategy": "Perform end-to-end review of all examples, checking for naturalness, pattern consistency, and educational value for demonstrating the new conversational style"
+          }
+        ]
       },
       {
         "id": 7,
-        "title": "Write Unit Tests for Agent Code Changes",
-        "description": "Create unit tests for the agent.py modifications following TDD principles with 50% code coverage target",
-        "details": "Write unit tests in appropriate test file (e.g., test_agent.py) to cover: 1) Prompt file loading functionality, 2) Verification that new prompt content is properly loaded, 3) Basic agent initialization with new prompt, 4) Happy path scenarios for prompt usage. Use pytest framework and focus on primary functionality without edge cases. Aim for approximately 50% code coverage of modified code.",
-        "testStrategy": "Run pytest with coverage reporting to verify tests pass and achieve target coverage percentage",
+        "title": "Validate Prompt Consistency",
+        "description": "Review the entire updated prompt file for consistency, coherence, and adherence to requirements",
+        "details": "Perform a comprehensive review of the modified hub_front_desk_prompt.md file to ensure all sections work together cohesively. Check that the de-emphasis of 'Oh!', the variety of conversational connectors, and the filler-first strategy are consistently applied throughout. Verify that the prompt maintains its original functionality while incorporating the new conversational improvements.",
+        "testStrategy": "Conduct a line-by-line review and create a checklist confirming all requirements are met and the prompt maintains internal consistency",
         "priority": "medium",
         "dependencies": [
           6
         ],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Review Conversational Connector Consistency",
+            "description": "Examine all sections of the prompt file to ensure varied conversational connectors are used consistently throughout, replacing repetitive 'Oh!' usage",
+            "dependencies": [],
+            "details": "Scan through each section of hub_front_desk_prompt.md and identify all instances of conversational connectors. Create a checklist of different connector types (Well, Actually, You know, So, etc.) and verify they are distributed appropriately across different response scenarios. Flag any remaining overuse of 'Oh!' and suggest alternatives.",
+            "status": "done",
+            "testStrategy": "Create a frequency analysis of connector usage and ensure no single connector appears more than 30% of the time in similar contexts"
+          },
+          {
+            "id": 2,
+            "title": "Validate Filler-First Strategy Implementation",
+            "description": "Verify that the filler-first conversational strategy is properly implemented across all response templates and examples",
+            "dependencies": [
+              1
+            ],
+            "details": "Review all example responses and templates to confirm they start with appropriate conversational fillers before delivering main content. Check that fillers are contextually appropriate and varied. Ensure the strategy is applied consistently in greeting scenarios, information requests, and problem-solving responses.",
+            "status": "done",
+            "testStrategy": "Test sample inputs against the prompt to verify responses consistently begin with natural conversational fillers before main content"
+          },
+          {
+            "id": 3,
+            "title": "Check Functional Requirement Preservation",
+            "description": "Ensure all original prompt functionality remains intact after conversational improvements",
+            "dependencies": [
+              2
+            ],
+            "details": "Compare the updated prompt against the original requirements to verify that core functionalities like guest assistance, information provision, problem resolution, and escalation procedures are preserved. Create a checklist of all original capabilities and confirm each is still addressed in the updated version.",
+            "status": "done",
+            "testStrategy": "Run through key use cases from the original prompt specification to ensure all functional requirements still work as expected"
+          },
+          {
+            "id": 4,
+            "title": "Assess Section Coherence and Flow",
+            "description": "Review the overall structure and flow between different sections to ensure they work together cohesively",
+            "dependencies": [
+              3
+            ],
+            "details": "Examine transitions between sections, consistency of tone and style, and logical progression of instructions. Verify that the conversational improvements don't create contradictions or confusion between different parts of the prompt. Check that examples align with instructions and that the overall voice remains consistent.",
+            "status": "done",
+            "testStrategy": "Read through the entire prompt as a continuous document to identify any jarring transitions or inconsistencies in approach"
+          },
+          {
+            "id": 5,
+            "title": "Perform Final Compliance and Quality Check",
+            "description": "Conduct a comprehensive final review to ensure all requirements are met and the prompt is ready for implementation",
+            "dependencies": [
+              4
+            ],
+            "details": "Create a final checklist covering: de-emphasis of 'Oh!' achieved, conversational variety implemented, filler-first strategy applied, original functionality preserved, and overall coherence maintained. Document any remaining issues and provide recommendations for final adjustments if needed.",
+            "status": "done",
+            "testStrategy": "Perform end-to-end testing with diverse input scenarios to validate the prompt performs as expected with improved conversational flow"
+          }
+        ]
       },
       {
         "id": 8,
-        "title": "Modify Agent.py to Load New Prompt File",
-        "description": "Update the agent.py file to load and use the new hub_front_desk_prompt.md file instead of the current prompt",
-        "details": "Modify agent.py to: 1) Update the prompt file path to load prompts/hub_front_desk_prompt.md, 2) Ensure proper file reading and error handling, 3) Verify the prompt content is correctly passed to the AI model, 4) Maintain backward compatibility if needed, 5) Add appropriate logging for prompt loading. Follow existing code patterns and maintain code quality standards.",
-        "testStrategy": "Run unit tests to verify prompt loading works correctly and agent initializes with new prompt content",
-        "priority": "high",
+        "title": "Commit Changes to Feature Branch",
+        "description": "Commit all prompt modifications to the feature branch with descriptive commit messages",
+        "details": "Stage and commit all changes made to the hub_front_desk_prompt.md file using git. Create clear, descriptive commit messages that explain the conversational flow refinements, including the de-emphasis of 'Oh!', addition of varied connectors, and implementation of latency masking strategy.",
+        "testStrategy": "Verify commits are properly staged and committed with 'git log' showing descriptive commit messages for the changes",
+        "priority": "medium",
         "dependencies": [
           7
         ],
         "status": "done",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Review and Stage Modified Files",
+            "description": "Check the current git status and stage all modifications to the hub_front_desk_prompt.md file for commit",
+            "dependencies": [],
+            "details": "Use 'git status' to verify which files have been modified. Use 'git add hub_front_desk_prompt.md' to stage the specific file containing the prompt modifications. Verify staging with 'git status' to ensure only intended changes are staged.",
+            "status": "done",
+            "testStrategy": "Verify git status shows the file as staged and ready for commit"
+          },
+          {
+            "id": 2,
+            "title": "Create Descriptive Commit Message for Conversational Flow Changes",
+            "description": "Craft a comprehensive commit message that describes the conversational flow refinements made to the prompt",
+            "dependencies": [
+              1
+            ],
+            "details": "Write a commit message following conventional commit format. Include details about de-emphasizing 'Oh!' exclamations, adding varied conversation connectors, and implementing latency masking strategies. Message should be clear and informative for future reference.",
+            "status": "done",
+            "testStrategy": "Review commit message for clarity and completeness before committing"
+          },
+          {
+            "id": 3,
+            "title": "Execute Git Commit with Descriptive Message",
+            "description": "Perform the actual git commit operation using the crafted commit message",
+            "dependencies": [
+              2
+            ],
+            "details": "Use 'git commit -m \"[commit message]\"' to commit the staged changes. Ensure the commit message accurately reflects all the prompt modifications including conversational flow improvements and latency handling strategies.",
+            "status": "done",
+            "testStrategy": "Verify commit was successful with 'git log --oneline -1' to see the latest commit"
+          },
+          {
+            "id": 4,
+            "title": "Verify Commit Contents and History",
+            "description": "Confirm that the commit contains the expected changes and appears correctly in the git history",
+            "dependencies": [
+              3
+            ],
+            "details": "Use 'git show HEAD' to review the commit details and verify all intended changes are included. Check 'git log --oneline' to ensure the commit appears in the branch history with the correct message.",
+            "status": "done",
+            "testStrategy": "Review git show output to confirm all prompt modifications are captured in the commit"
+          },
+          {
+            "id": 5,
+            "title": "Push Commit to Remote Feature Branch",
+            "description": "Push the committed changes to the remote repository's feature branch",
+            "dependencies": [
+              4
+            ],
+            "details": "Use 'git push origin [feature-branch-name]' to push the commit to the remote repository. Ensure you're pushing to the correct feature branch and not the main branch. Verify the push was successful.",
+            "status": "done",
+            "testStrategy": "Confirm push success and verify the commit appears in the remote repository's branch history"
+          }
+        ]
       },
       {
         "id": 9,
-        "title": "Manual Testing and Validation",
-        "description": "Conduct manual testing of the enhanced agent using test questions derived from the training manual",
-        "details": "Test the agent with specific questions mentioned in the PRD and additional relevant queries: 1) 'What are the staffed hours at the Kaka'ako location?', 2) 'Tell me about the Virtual Office service.', 3) General greeting and conversation flow, 4) Hawaiian phrase usage appropriateness, 5) Professional yet casual tone verification, 6) Knowledge accuracy compared to training manual. Document test results and any issues found.",
-        "testStrategy": "Create a test script with 8-10 questions covering different aspects of the knowledge base and persona, document responses and evaluate against success criteria",
-        "priority": "high",
+        "title": "Push Feature Branch to Remote Repository",
+        "description": "Push the feature branch containing all prompt refinements to the remote GitHub repository",
+        "details": "Execute git push command to upload the feature/refine-conversational-flow branch to the remote GitHub repository. Ensure all commits are successfully pushed and the branch is available for pull request creation.",
+        "testStrategy": "Verify the feature branch appears in the remote repository and contains all committed changes",
+        "priority": "medium",
         "dependencies": [
           8
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Verify Local Branch Status and Commits",
+            "description": "Check the current status of the feature/refine-conversational-flow branch to ensure all changes are committed and the branch is ready for pushing",
+            "dependencies": [],
+            "details": "Run 'git status' to verify no uncommitted changes, 'git log --oneline' to review recent commits, and 'git branch' to confirm you're on the correct feature branch. Ensure all prompt refinement changes are properly committed with descriptive commit messages.",
+            "status": "done",
+            "testStrategy": "Verify git status shows 'working tree clean' and git log shows expected commits for prompt refinements"
+          },
+          {
+            "id": 2,
+            "title": "Check Remote Repository Connection",
+            "description": "Verify that the local repository is properly connected to the remote GitHub repository and has the correct remote URL configured",
+            "dependencies": [
+              1
+            ],
+            "details": "Execute 'git remote -v' to verify the remote origin URL points to the correct GitHub repository. If remote is not configured, add it using 'git remote add origin <repository-url>'. Test connectivity with 'git remote show origin'.",
+            "status": "done",
+            "testStrategy": "Confirm remote URL matches expected GitHub repository and connection test succeeds"
+          },
+          {
+            "id": 3,
+            "title": "Set Upstream Tracking for Feature Branch",
+            "description": "Configure the local feature branch to track the corresponding remote branch for future push/pull operations",
+            "dependencies": [
+              2
+            ],
+            "details": "Use 'git push --set-upstream origin feature/refine-conversational-flow' to push the branch and establish tracking relationship. This ensures the local branch is linked to the remote branch for subsequent operations.",
+            "status": "done",
+            "testStrategy": "Verify branch tracking is established by running 'git branch -vv' and confirming upstream is set"
+          },
+          {
+            "id": 4,
+            "title": "Execute Push Command and Monitor Progress",
+            "description": "Push the feature branch to the remote repository and monitor the upload progress to ensure successful completion",
+            "dependencies": [
+              3
+            ],
+            "details": "Execute the push command and monitor output for any errors or warnings. Watch for authentication prompts if using HTTPS, or ensure SSH keys are properly configured. Monitor progress indicators and wait for completion confirmation.",
+            "status": "done",
+            "testStrategy": "Confirm push completes without errors and displays success message with commit count and branch reference"
+          },
+          {
+            "id": 5,
+            "title": "Verify Remote Branch Creation and Accessibility",
+            "description": "Confirm that the feature branch has been successfully created on the remote GitHub repository and is accessible for pull request creation",
+            "dependencies": [
+              4
+            ],
+            "details": "Visit the GitHub repository in a web browser to verify the feature/refine-conversational-flow branch appears in the branch list. Check that all commits are visible and the branch shows as recently updated. Verify the branch is ready for pull request creation.",
+            "status": "done",
+            "testStrategy": "Navigate to GitHub repository, confirm branch exists in branch dropdown, and verify commit history matches local branch"
+          }
+        ]
       },
       {
         "id": 10,
-        "title": "Create Pull Request and Documentation",
-        "description": "Commit all changes, push feature branch, and create pull request for review following the development workflow",
-        "details": "Complete the development workflow: 1) Commit all changes to feature branch with descriptive commit messages, 2) Push feature/improve-agent-prompt branch to remote repository, 3) Create Pull Request from feature branch to main, 4) Assign PR to 'raseniero' for review, 5) Include comprehensive PR description with changes made, testing performed, and success metrics achieved, 6) Update any relevant documentation or README files.",
-        "testStrategy": "Verify all files are committed, branch is pushed successfully, and PR is created with proper assignee and description",
+        "title": "Create Pull Request for Review",
+        "description": "Create a Pull Request from the feature branch to main and assign it to raseniero for review",
+        "details": "Create a Pull Request on GitHub from the feature/refine-conversational-flow branch to the main branch. Include a comprehensive description of the changes made, referencing the PRD requirements. Assign the PR to 'raseniero' for review as specified in the development workflow. Include details about the conversational improvements and testing approach.",
+        "testStrategy": "Verify the Pull Request is created successfully, assigned to the correct reviewer, and contains a clear description of all implemented changes",
         "priority": "medium",
         "dependencies": [
           9
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Prepare branch and verify changes",
+            "description": "Ensure the feature/refine-conversational-flow branch is up to date and all changes are committed and pushed to the remote repository",
+            "dependencies": [],
+            "details": "Switch to the feature/refine-conversational-flow branch, pull latest changes from remote, verify all local changes are committed, and push any remaining commits to ensure the remote branch reflects all intended changes for the PR",
+            "status": "done",
+            "testStrategy": "Run git status to confirm clean working directory and git log to verify all commits are present"
+          },
+          {
+            "id": 2,
+            "title": "Draft comprehensive PR description",
+            "description": "Create a detailed Pull Request description that explains the conversational flow improvements, references PRD requirements, and outlines the changes made",
+            "dependencies": [
+              1
+            ],
+            "details": "Write a structured PR description including: summary of changes, specific PRD requirements addressed, technical implementation details, conversational flow improvements made, breaking changes (if any), and testing approach used. Use markdown formatting for clarity",
+            "status": "done",
+            "testStrategy": "Review description against PRD requirements to ensure all relevant points are covered"
+          },
+          {
+            "id": 3,
+            "title": "Create Pull Request on GitHub",
+            "description": "Navigate to GitHub repository and create a new Pull Request from feature/refine-conversational-flow to main branch",
+            "dependencies": [
+              2
+            ],
+            "details": "Go to GitHub repository, click 'New Pull Request', select feature/refine-conversational-flow as source branch and main as target branch, add the prepared title and description, and ensure all commits are included in the PR diff",
+            "status": "done",
+            "testStrategy": "Verify PR shows correct branch comparison and all expected file changes are visible in the diff"
+          },
+          {
+            "id": 4,
+            "title": "Assign reviewer and configure PR settings",
+            "description": "Assign 'raseniero' as the reviewer and configure appropriate PR labels, milestone, and other metadata",
+            "dependencies": [
+              3
+            ],
+            "details": "In the PR sidebar, add 'raseniero' as a reviewer, apply relevant labels (e.g., 'enhancement', 'conversational-flow'), set appropriate milestone if applicable, and configure any required PR checks or branch protection rules",
+            "status": "done",
+            "testStrategy": "Confirm reviewer assignment is visible and all configured settings are properly applied"
+          },
+          {
+            "id": 5,
+            "title": "Verify PR creation and notify stakeholders",
+            "description": "Confirm the Pull Request was created successfully and notify relevant team members about the PR ready for review",
+            "dependencies": [
+              4
+            ],
+            "details": "Verify the PR appears in the repository's Pull Requests tab, check that all automated checks are running, confirm reviewer notifications were sent, and optionally send a direct message or team notification about the PR being ready for review",
+            "status": "done",
+            "testStrategy": "Check PR status page shows all expected information and automated checks are initiated"
+          }
+        ]
       }
     ],
     "metadata": {
-      "created": "2025-06-25T06:07:46.049Z",
-      "updated": "2025-06-25T06:25:18.253Z",
+      "created": "2025-06-26T16:47:56.534Z",
+      "updated": "2025-06-27T05:03:28.812Z",
       "description": "Tasks for master context"
     }
   }
