@@ -1,0 +1,139 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Create Feature Branch for Agent Enhancement",
+        "description": "Create a new feature branch from main following the branching strategy defined in branching-merging-strategy.mdc",
+        "details": "Create a new Git branch named 'feature/improve-agent-prompt' from the main branch. This branch will contain all changes related to the AI agent enhancement. Use git checkout -b feature/improve-agent-prompt to create and switch to the new branch.",
+        "testStrategy": "Verify branch creation with git branch command and confirm current branch is feature/improve-agent-prompt",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 2,
+        "title": "Analyze Training Manual Content",
+        "description": "Review and analyze the existing HubCoworkingHi-FrontDesk-Training-Guide.md to understand the knowledge base and operational procedures",
+        "details": "Thoroughly read through prompts/HubCoworkingHi-FrontDesk-Training-Guide.md to understand: 1) Hub Coworking Hawaii's services and procedures, 2) Common customer questions and appropriate responses, 3) Operational details like staffed hours, locations, and policies, 4) Company culture and communication style. Document key information that needs to be distilled into the AI prompt.",
+        "testStrategy": "Create a summary document of key points extracted from the training manual to validate comprehensive understanding",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Create Hub Front Desk Prompt File",
+        "description": "Create the new hub_front_desk_prompt.md file in the prompts/ directory with the basic structure",
+        "details": "Create a new Markdown file at prompts/hub_front_desk_prompt.md with the following structure: 1) Header section defining the agent's role as Front Desk Host, 2) Persona definition section, 3) Knowledge base section derived from training manual, 4) Response guidelines section, 5) Local Hawaiian language integration instructions. Ensure the file follows proper Markdown formatting.",
+        "testStrategy": "Verify file creation and basic structure by checking file exists at correct path and contains all required sections",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Define Agent Persona and Communication Style",
+        "description": "Develop the detailed persona instructions for the AI agent to be conversational, friendly, professional, casual, and localized with Hawaiian elements",
+        "details": "Write comprehensive persona instructions in hub_front_desk_prompt.md that define: 1) Conversational & Friendly tone - engaging and approachable language, 2) Professional demeanor - accurate and reliable responses, 3) Casual communication style - relaxed and natural tone, 4) Hawaiian localization - incorporate 'aloha', 'mahalo', and other appropriate local phrases, 5) Specific examples of how to greet users and respond in character. Include guidelines for when and how to use Hawaiian phrases appropriately.",
+        "testStrategy": "Review persona section for completeness and ensure all four required characteristics (conversational, professional, casual, localized) are clearly defined with examples",
+        "priority": "high",
+        "dependencies": [
+          3
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Extract and Structure Knowledge Base from Training Manual",
+        "description": "Distill the training manual content into actionable instructions and knowledge that the AI can use to respond to queries",
+        "details": "Transform the training manual content into structured knowledge sections in hub_front_desk_prompt.md: 1) Services offered (Virtual Office, meeting rooms, etc.), 2) Location details and staffed hours, 3) Policies and procedures, 4) Common FAQ responses, 5) Pricing information if available, 6) Contact information and escalation procedures. Format as clear, actionable instructions the AI can follow when responding to specific types of queries.",
+        "testStrategy": "Cross-reference extracted knowledge with original training manual to ensure no critical information is lost and all major topics are covered",
+        "priority": "medium",
+        "dependencies": [
+          4
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Write Response Guidelines and Examples",
+        "description": "Create specific guidelines for how the agent should structure responses and provide example interactions",
+        "details": "Add response guidelines section to hub_front_desk_prompt.md including: 1) How to structure answers (greeting, main content, closing), 2) When to use Hawaiian phrases naturally, 3) How to handle questions outside the knowledge base, 4) Escalation procedures for complex queries, 5) Example conversations showing proper tone and style, 6) Guidelines for maintaining consistency in responses. Include 3-5 sample Q&A pairs demonstrating the desired interaction style.",
+        "testStrategy": "Review guidelines for clarity and completeness, ensure examples demonstrate all aspects of the defined persona",
+        "priority": "medium",
+        "dependencies": [
+          5
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Write Unit Tests for Agent Code Changes",
+        "description": "Create unit tests for the agent.py modifications following TDD principles with 50% code coverage target",
+        "details": "Write unit tests in appropriate test file (e.g., test_agent.py) to cover: 1) Prompt file loading functionality, 2) Verification that new prompt content is properly loaded, 3) Basic agent initialization with new prompt, 4) Happy path scenarios for prompt usage. Use pytest framework and focus on primary functionality without edge cases. Aim for approximately 50% code coverage of modified code.",
+        "testStrategy": "Run pytest with coverage reporting to verify tests pass and achieve target coverage percentage",
+        "priority": "medium",
+        "dependencies": [
+          6
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Modify Agent.py to Load New Prompt File",
+        "description": "Update the agent.py file to load and use the new hub_front_desk_prompt.md file instead of the current prompt",
+        "details": "Modify agent.py to: 1) Update the prompt file path to load prompts/hub_front_desk_prompt.md, 2) Ensure proper file reading and error handling, 3) Verify the prompt content is correctly passed to the AI model, 4) Maintain backward compatibility if needed, 5) Add appropriate logging for prompt loading. Follow existing code patterns and maintain code quality standards.",
+        "testStrategy": "Run unit tests to verify prompt loading works correctly and agent initializes with new prompt content",
+        "priority": "high",
+        "dependencies": [
+          7
+        ],
+        "status": "done",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Manual Testing and Validation",
+        "description": "Conduct manual testing of the enhanced agent using test questions derived from the training manual",
+        "details": "Test the agent with specific questions mentioned in the PRD and additional relevant queries: 1) 'What are the staffed hours at the Kaka'ako location?', 2) 'Tell me about the Virtual Office service.', 3) General greeting and conversation flow, 4) Hawaiian phrase usage appropriateness, 5) Professional yet casual tone verification, 6) Knowledge accuracy compared to training manual. Document test results and any issues found.",
+        "testStrategy": "Create a test script with 8-10 questions covering different aspects of the knowledge base and persona, document responses and evaluate against success criteria",
+        "priority": "high",
+        "dependencies": [
+          8
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Create Pull Request and Documentation",
+        "description": "Commit all changes, push feature branch, and create pull request for review following the development workflow",
+        "details": "Complete the development workflow: 1) Commit all changes to feature branch with descriptive commit messages, 2) Push feature/improve-agent-prompt branch to remote repository, 3) Create Pull Request from feature branch to main, 4) Assign PR to 'raseniero' for review, 5) Include comprehensive PR description with changes made, testing performed, and success metrics achieved, 6) Update any relevant documentation or README files.",
+        "testStrategy": "Verify all files are committed, branch is pushed successfully, and PR is created with proper assignee and description",
+        "priority": "medium",
+        "dependencies": [
+          9
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-06-25T06:07:46.049Z",
+      "updated": "2025-06-25T06:25:18.253Z",
+      "description": "Tasks for master context"
+    }
+  }
+}
